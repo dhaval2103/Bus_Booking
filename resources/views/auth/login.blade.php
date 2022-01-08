@@ -1,3 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Log In | Minible - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+
+</head>
+
+</html>
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,11 +37,10 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -24,13 +48,10 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -38,6 +59,12 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- <div class="row mb-3">
+                            <label for="Refferal_Code" class="col-md-4 col-form-label text-md-right">Refferal_Code</label>
+                            <div class="col-md-6">
+                                <input id="refferal_code" type="text" class="form-control">
+                            </div>
+                        </div> --}}
 
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">

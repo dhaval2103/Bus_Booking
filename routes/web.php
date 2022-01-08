@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BusController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::group(['middleware' => 'auth:web'], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Auth::routes();
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('searchbus',[BusController::class, 'searchbus'])->name('searchbus');
+    Route::post('buslist',[BusController::class,'buslist'])->name('buslist');
+// });

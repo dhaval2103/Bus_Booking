@@ -79,7 +79,15 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Seat" class="col-form-label">Seat :</label>
-                            <input type="text" class="form-control" name="seat">
+                            {{-- <input type="text" class="form-control" name="seat"> --}}
+                            <select name="seat" id="" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
                             @error('seat')
                                 <span style="color: red">{{ $message }}</span>
                             @enderror

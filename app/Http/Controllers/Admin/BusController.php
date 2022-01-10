@@ -9,6 +9,7 @@ use App\Http\Requests\SearchBus;
 use App\Interfaces\BusInterface;
 use App\Models\Bus;
 use Illuminate\Http\Request;
+use Laravel\Ui\Presets\React;
 use Session;
 
 class BusController extends Controller
@@ -67,7 +68,22 @@ class BusController extends Controller
             ->Where('destination','LIKE','%'.$request->destination.'%')
             ->get();
         return view('auth.customer.bus_list',compact('searching'));
+    }
 
+    public function selectcheck(Request $request)
+    {
+        // $seat=0;
+        // $totalprice=0;
+        // $seats=Bus::where('id',$request->id)->first();
+        // if($seat){
+        //     $seat=$request->id;
+        //     $totalprice=$seat*$seats->price;
+        //     $arr=[
+        //         'seats'=>$seat,
+        //         'price'=>$totalprice
+        //     ];
+        //     Bus::where('id',$request->id)->update($arr);
+        // }
     }
 
 }

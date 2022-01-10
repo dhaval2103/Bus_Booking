@@ -29,4 +29,5 @@ Auth::routes();
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('searchbus',[BusController::class, 'searchbus'])->name('searchbus');
     Route::post('buslist',[BusController::class,'buslist'])->name('buslist');
+    Route::post('selectcheck',[BusController::class,'selectcheck'])->name('selectcheck');
 // });

@@ -1,8 +1,12 @@
 @extends('auth.userlayout.master')
 @section('content')
+<style>
+    /* .hidden-class{
+        display: none
+    } */
+</style>
 <div class="page-content">
     <div class="container-fluid">
-
         <!-- start page title -->
         <div class="row">
             <p></p>
@@ -19,90 +23,82 @@
             </div>
         </div>
         <!-- end page title -->
-        {{-- <form action="" method="POST" id="searchform"> --}}
             <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
                 @foreach ($searching as $search)
-                    <div class="col-sm-6 info" >
-                        Bus Name : <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
-                        Bus No : <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                        Available Seat : <h5>{{ $search->seats }}&nbsp;<button type="click" class="btn btn-primary book" data-id="{{$search->id}}">>></button></h5>
-                        Price : <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
+                <form action="{{ route('booking') }}" method="POST" id="">
+                    @csrf
+                    <div class="col-sm-12 info" >
+                        <input type="hidden" name="id" value="{{$search->id}}">
+                        Bus Name :
+                            <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
+                        Bus No :
+                            <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
+                        Available Seat :
+                            <h5>{{ $search->seats }}</h5>
+                        Route :
+                            <h5>{{ $search->route }}</h5>
+                        {{-- <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">>></button> --}}
                         <input type="hidden" class="seatNo" value="{{ $search->seats }}">
-
-                        <div class="col-12 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
-                        <button  type="click" class="btn btn-warning" data-id="{{$search->id}}" style="margin-top: 10px">Submit</button>
+                        <input type="hidden" class="seat" name="seat" value="">
+                        <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
+                        <div class="col-sm-2 hidden-class">
+                            {{-- @if($a!=null)
+                                @php
+                                    // $booked=count($a[0]);
+                                    $minus= $search->seats-$booked;
+                                @endphp
+                            @else
+                                @php
+                                    $minus=$search->seats;
+                                @endphp
+                            @endif --}}
+                            @for ($i =1 ; $i <=$search->seats; $i++)
+                                {{$i}}&nbsp;<input class='form-check-inline select-seat' name='check[]' type='checkbox'
+                                             value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
+                              @endfor
+                        </div>
+                        Price :
+                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
+                        <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
                     </div>
+                </form>
                 @endforeach
             </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-2">
-                    <div class="card">
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-xl-2">
-                    <div class="card">
-                    </div>
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-2">
-                    <div class="card">
-                    </div>
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-2">
-                    <div class="card">
-                    </div>
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-2">
-                    <div class="card">
-
-                    </div>
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-2">
-
-                </div> <!-- end col-->
-
-            </div>
-        {{-- </form> --}}
          <!-- end row-->
     </div> <!-- container-fluid -->
 </div>
 @endsection
 @push('js')
     <script>
-         $(document).on('change','.select-seat',function(){
+
+         $(document).on('change','.select-seat',function(e){
+            e.preventDefault();
             var totalCheckboxes = $('.select-seat:checked').length;
-            var sessionNo=$('.sessionNo').val();
-
-            if(totalCheckboxes>sessionNo)
+            var total = $('input[name="check[]"]:checked').length;
+            var sessionNo = $('.sessionNo').val();
+            $('.seat').val(total);
+            if(totalCheckboxes > sessionNo)
             {
-                alert('you shoud not selected greter than  ' +sessionNo );
-            }else{
-                
+                alert('you shoud not selected greter than  ' + sessionNo );
+                $(this).prop( "checked", false );
             }
-            return false;
 
-        })
+        });
+
         $(document).on('click','.book',function(){
             var a=$('.seatNo').val();
-
             var id=$(this).data('id');
             var htm="";
-            htm+="<form> ";
-            for(var i=1;i<=a;i++)
-            {
-                htm+="<input class='form-check-inline select-seat' type='checkbox'>";
-            }
-            htm+="</form>"
-            $('#'+id).html(htm);
-
-
-
-        })
+            $('.hidden-class').css('display','block')
+            // htm+="<div class='form-group'>";
+            // for(var i=1;i<=a;i++)
+            // {
+            //     htm+="<input class='form-check-inline select-seat' name='check[]' type='checkbox' value='"+i+"'>";
+            // }
+            // htm+="</div>"
+            // $('#'+id).html(htm);
+        });
 
     </script>
 @endpush

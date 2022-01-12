@@ -32,6 +32,7 @@ class BusValidation extends FormRequest
                 'date' => 'required',
                 'source'=>'required',
                 'destination'=>'required',
+                'route'=>'required',
                 'price'=>'required',
             ];
         } else {
@@ -42,6 +43,7 @@ class BusValidation extends FormRequest
                 'date' => 'required',
                 'source'=>'required',
                 'destination'=>'required',
+                'route'=>'required',
                 'price'=>'required',
             ];
         }
@@ -56,6 +58,7 @@ class BusValidation extends FormRequest
             'date.required' => 'Please Choose Date',
             'source.required' => 'Please Choose Source',
             'destination.required' => 'Please Choose Destination',
+            'route.required' => 'Please Choose Route',
             'price.required'=>'Please Enter Price',
         ];
     }

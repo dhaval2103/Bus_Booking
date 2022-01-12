@@ -73,11 +73,12 @@ class BusDatatable extends DataTable
     {
         return [
             Column::make('no')->data('DT_RowIndex')->searchable(false)->orderable(false)->width(50),
-            Column::make('name')->title('BusName'),
-            Column::make('no')->title('BusNo'),
+            Column::make('name'),
+            Column::make('no'),
             Column::make('source'),
             Column::make('destination'),
-            Column::make('onward')->title('Date'),
+            Column::make('route'),
+            Column::make('onward'),
             Column::make('time'),
             Column::make('seats'),
             Column::make('price'),

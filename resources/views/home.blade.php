@@ -1,6 +1,10 @@
 {{-- @extends('layouts.app') --}}
 @extends('auth.userlayout.master')
 @section('content')
+@prepend('css')
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
+@endprepend
+
 <div class="page-content">
     <div class="container-fluid">
 
@@ -28,11 +32,15 @@
                         <select class="form-control js-example-basic-multiple" name="source">
                             <option value="">Select Source</option>
                             <option value="Surat">Surat</option>
-                            <option value="Ahmedabad">Ahmedabad</option>
-                            <option value="Vadodara">Vadodara</option>
-                            <option value="Bhavnagar">Bhavnagar</option>
-                            <option value="Valsad">Valsad</option>
-                        </select>
+                            <option value="Adajan">Adajan</option>
+                            <option value="Bhatar">Bhatar</option>
+                            <option value="Dabholi">Dabholi</option>
+                            <option value="Chowk">Chowk</option>
+                            <option value="Kamrej">Kamrej</option>
+                            <option value="Katargam">Katargam</option>
+                            <option value="Kosamba">Kosamba</option>
+                            <option value="Laskana">Laskana</option>
+                    </select>
                         @error('source')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
@@ -45,11 +53,18 @@
                         <label for="Destination" class="col-form-label">Destination :</label>
                         <select class="form-control js-example-basic-multiple" name="destination">
                             <option value="">Select Destination</option>
+                            <option value="Rajkot">Rajkot</option>
                             <option value="Ahmedabad">Ahmedabad</option>
                             <option value="Vadodara">Vadodara</option>
                             <option value="Bhavnagar">Bhavnagar</option>
                             <option value="Valsad">Valsad</option>
-                        </select>
+                            <option value="Amreli">Amreli</option>
+                            <option value="Bharuch">Bharuch</option>
+                            <option value="Rajula">Rajula</option>
+                            <option value="Patan">Patan</option>
+                            <option value="Savarkundla">Savarkundla</option>
+                            <option value="Bhuj">Bhuj</option>
+                    </select>
                         @error('destination')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
@@ -59,14 +74,14 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Date" class="col-form-label">Date :</label>
-                            <input type="date" class="form-control" name="date">
+                            <input type="text" class="form-control onward" name="date" id="txtdate">
                             @error('date')
                                 <span style="color: red">{{ $message }}</span>
                             @enderror
                     </div>
                 </div> <!-- end col-->
 
-                <div class="col-md-6 col-xl-2">
+                {{-- <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Time" class="col-form-label">Time :</label>
                             <input type="time" class="form-control" name="time">
@@ -74,7 +89,7 @@
                                 <span style="color: red">{{ $message }}</span>
                             @enderror
                     </div>
-                </div> <!-- end col-->
+                </div> <!-- end col--> --}}
 
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
@@ -115,9 +130,29 @@
 </div>
 @endsection
 @push('js')
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
      <script>
+
          $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+
+            var currentDate = new Date();
+            $('.onward').datepicker({
+                dateFormat: "yy-mm-dd",
+                numberOfMonths:1,
+                minDate: +1,
+                changeMonth:true,
+                changeYear:true,
+            }).on('changeDate', function(ev) {
+                $(this).datepicker('hide');
+            });
+            $('.onward').keyup(function() {
+                if (this.value.match(/[^0-9]/g)) {
+                    this.value = this.value.replace(/[^0-9^-]/g, '');
+                }
+            });
+
+
             $("#searchform").validate({
                 rules: {
                     'seat': {
@@ -157,5 +192,6 @@
             });
 
         });
+
      </script>
 @endpush

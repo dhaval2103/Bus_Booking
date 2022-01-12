@@ -7,7 +7,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-body">
-                    {{ $dataTable->table(['class' => 'table table-bordered dt-responsive nowrap']) }}
+                    <div class="table-responsive table-hover">
+                        {{ $dataTable->table(['class' => 'table table-bordered dt-responsive nowrap']) }}
+                    </div>
                 </div>
             </div>
         </div>

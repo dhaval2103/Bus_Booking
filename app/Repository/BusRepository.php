@@ -17,6 +17,7 @@ class BusRepository implements BusInterface
         $bus->time=$request['time'];
         $bus->source=$request['source'];
         $bus->destination=$request['destination'];
+        $bus->route=implode(',',$request['route']);
         $bus->price=$request['price'];
         $bus->save();
     }
@@ -38,6 +39,7 @@ class BusRepository implements BusInterface
                 'time'=>$request['time'],
                 'source'=>$request['source'],
                 'destination'=>$request['destination'],
+                'route'=>implode(',',$request['route']),
                 'price'=>$request['price'],
             ];
             Bus::where('id',$request['id'])->update($arr);

@@ -51,10 +51,14 @@
                             <label for="Source" class="col-form-label">Source :</label><br>
                             <select class="form-control js-example-basic-multiple" name="source">
                                 <option value="Surat" @if($edit->source=='Surat') selected @endif>Surat</option>
-                                <option value="Ahmedabad" @if($edit->source=='Ahmedabad') selected @endif>Ahmedabad</option>
-                                <option value="Vadodara" @if($edit->source=='Vadodara') selected @endif>Vadodara</option>
-                                <option value="Bhavnagar" @if($edit->source=='Bhavnagar') selected @endif>Bhavnagar</option>
-                                <option value="Valsad" @if($edit->source=='Valsad') selected @endif>Valsad</option>
+                                <option value="Adajan" @if($edit->source=='Adajan') selected @endif>Adajan</option>
+                                <option value="Bhatar" @if($edit->source=='Bhatar') selected @endif>Bhatar</option>
+                                <option value="Dabholi" @if($edit->source=='Dabholi') selected @endif>Dabholi</option>
+                                <option value="Chowk" @if($edit->source=='Chowk') selected @endif>Chowk</option>
+                                <option value="Kamrej" @if($edit->source=='Kamrej') selected @endif>Kamrej</option>
+                                <option value="Katargam" @if($edit->source=='Katargam') selected @endif>Katargam</option>
+                                <option value="Kosamba" @if($edit->source=='Kosamba') selected @endif>Kosamba</option>
+                                <option value="Laskana" @if($edit->source=='Laskana') selected @endif>Laskana</option>
                             </select>
                             @error('source')
                                 <span style="color: red">{{ $message }}</span>
@@ -63,13 +67,46 @@
                         <div class="form-group">
                             <label for="Destination" class="col-form-label">Destination :</label><br>
                             <select class="form-control js-example-basic-multiple" name="destination">
-                                <option value="Surat" @if($edit->destination=='Surat') selected @endif>Surat</option>
+                                <option value="Rajkot" @if($edit->destination=='Rajkot') selected @endif>Rajkot</option>
                                 <option value="Ahmedabad" @if($edit->destination=='Ahmedabad') selected @endif>Ahmedabad</option>
                                 <option value="Vadodara" @if($edit->destination=='Vadodara') selected @endif>Vadodara</option>
                                 <option value="Bhavnagar" @if($edit->destination=='Bhavnagar') selected @endif>Bhavnagar</option>
                                 <option value="Valsad" @if($edit->destination=='Valsad') selected @endif>Valsad</option>
+                                <option value="Amreli" @if($edit->destination=='Amreli') selected @endif>Amreli</option>
+                                <option value="Bharuch" @if($edit->destination=='Bharuch') selected @endif>Bharuch</option>
+                                <option value="Rajula" @if($edit->destination=='Rajula') selected @endif>Rajula</option>
+                                <option value="Patan" @if($edit->destination=='Patan') selected @endif>Patan</option>
+                                <option value="Savarkundla" @if($edit->destination=='Savarkundla') selected @endif>Savarkundla</option>
+                                <option value="Bhuj" @if($edit->destination=='Bhuj') selected @endif>Bhuj</option>
                             </select>
                             @error('destination')
+                                <span style="color: red">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @php
+                            $a=explode(',',$edit->route);
+                        @endphp
+                        <div class="form-group">
+                            <label for="Route" class="col-form-label">Route :</label><br>
+                            <select class="form-control js-example-basic-multiple" multiple name="route[]">
+                                <option value="Bharuch" @if(in_array('Bharuch',$a)) selected @endif>Bharuch</option>
+                                <option value="Karjan" @if(in_array('Karjan',$a)) selected @endif>Karjan</option>
+                                <option value="Vadodara" @if(in_array('Vadodara',$a)) selected @endif>Vadodara</option>
+                                <option value="Tarapur" @if(in_array('Tarapur',$a)) selected @endif>Tarapur</option>
+                                <option value="Dhola" @if(in_array('Dhola',$a)) selected @endif>Dhola</option>
+                                <option value="Dholera" @if(in_array('Dholera',$a)) selected @endif>Dholera</option>
+                                <option value="Palitana" @if(in_array('Palitana',$a)) selected @endif>Palitana</option>
+                                <option value="Jesar" @if(in_array('Jesar',$a)) selected @endif>Jesar</option>
+                                <option value="Borsad" @if(in_array('Borsad',$a)) selected @endif>Borsad</option>
+                                <option value="Bhavnagar" @if(in_array('Bhavnagar',$a)) selected @endif>Bhavnagar</option>
+                                <option value="Sihor" @if(in_array('Sihor',$a)) selected @endif>Sihor</option>
+                                <option value="Anand" @if(in_array('Anand',$a)) selected @endif>Anand</option>
+                                <option value="Ahmedabad" @if(in_array('Ahmedabad',$a)) selected @endif>Ahmedabad</option>
+                                <option value="Bhachau" @if(in_array('Bhachau',$a)) selected @endif>Bhachau</option>
+                                <option value="Kamrej" @if(in_array('Kamrej',$a)) selected @endif>Kamrej</option>
+                                <option value="Chotila" @if(in_array('Chotila',$a)) selected @endif>Chotila</option>
+                            </select>
+                            @error('route')
                                 <span style="color: red">{{ $message }}</span>
                             @enderror
                         </div>

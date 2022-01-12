@@ -79,9 +79,11 @@ class BusController extends Controller
             ->Where('destination','LIKE','%'.$request->destination.'%')
             ->get();
         $ans=[];
+        $rout=[];
         foreach($searching as $value)
         {
-                $ans[]=Booking::select('book_seat')->where('bus_id',$value->id)->first();
+            $rout[]=explode(',',$value->route);
+            $ans[]=Booking::select('book_seat')->where('bus_id',$value->id)->first();
         }
         $a=[];
         foreach($ans as $values)
@@ -91,26 +93,8 @@ class BusController extends Controller
                 $a[]=explode(',',$values['book_seat']);
             }
         }
-        return view('auth.customer.bus_list',compact('searching','a'));
+        return view('auth.customer.bus_list',compact('searching','a','rout'));
     }
-
-    // public function selectcheck(Request $request)
-    // {
-        // $seat=0;
-        // $totalprice=0;
-        // $seats=Bus::where('id',$request->id)->first();
-        // if($seat){
-        //     $seat=$request->id;
-        //     $totalprice=$seat*$seats->price;
-        //     $arr=[
-        //         'seats'=>$seat,
-        //         'price'=>$totalprice
-        //     ];
-        //     Bus::where('id',$request->id)->update($arr);
-        // }
-        // $price=Bus::where('id',$request->id)->first();
-        // return response()->json(['data'=>$price]);
-    // }
 
     public function booking(Request $request)
     {
@@ -195,5 +179,24 @@ class BusController extends Controller
         $pdf = PDF::loadview('auth.customer.generatepdf',compact('view'));
         return $pdf->stream('ticket.pdf');
     }
+
+        // public function selectcheck(Request $request)
+     // {
+        // $seat=0;
+        // $totalprice=0;
+        // $seats=Bus::where('id',$request->id)->first();
+        // if($seat){
+        //     $seat=$request->id;
+        //     $totalprice=$seat*$seats->price;
+        //     $arr=[
+        //         'seats'=>$seat,
+        //         'price'=>$totalprice
+        //     ];
+        //     Bus::where('id',$request->id)->update($arr);
+        // }
+        // $price=Bus::where('id',$request->id)->first();
+        // return response()->json(['data'=>$price]);
+     // }
+
 
 }

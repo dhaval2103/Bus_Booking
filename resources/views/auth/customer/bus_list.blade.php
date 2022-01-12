@@ -25,16 +25,18 @@
         <!-- end page title -->
             <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
+
                 @foreach ($searching as $search)
                 <form action="{{ route('booking') }}" method="POST" id="">
                     @csrf
                     <div class="col-sm-12 info" >
+
                         <input type="hidden" name="id" value="{{$search->id}}">
                         Bus Name :
                             <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
                         Bus No :
                             <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                        Available Seat :
+                        Total Seat :
                             <h5>{{ $search->seats }}</h5>
                         Route :
                             <h5>{{ $search->route }}</h5>
@@ -43,20 +45,12 @@
                         <input type="hidden" class="seat" name="seat" value="">
                         <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
                         <div class="col-sm-2 hidden-class">
-                            {{-- @if($a!=null)
-                                @php
-                                    // $booked=count($a[0]);
-                                    $minus= $search->seats-$booked;
-                                @endphp
-                            @else
-                                @php
-                                    $minus=$search->seats;
-                                @endphp
-                            @endif --}}
+
                             @for ($i =1 ; $i <=$search->seats; $i++)
-                                {{$i}}&nbsp;<input class='form-check-inline select-seat' name='check[]' type='checkbox'
-                                             value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
-                              @endfor
+                                {{$i}}&nbsp;
+                                <input class='form-check-inline select-seat' name='check[]' type='checkbox'
+                                 value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
+                            @endfor
                         </div>
                         Price :
                         <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
@@ -64,6 +58,30 @@
                     </div>
                 </form>
                 @endforeach
+                    @foreach ($rout[0] as $value)
+                    <div class="col-sm-12">
+                        <label for="Bus Name" class="col-form-label">Bus Name :</label>
+                        <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
+                        <label for="Destination" class="col-form-label">Destination :</label>
+                        <span>{{$value}}</span><br>
+                        <label for="Bus No" class="col-form-label">Bus No :</label>
+                        <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
+                        <label for="Total Seat" class="col-form-label">Total Seat :</label>
+                        <h5>{{ $search->seats }}</h5>
+                        <input type="hidden" class="seatNo" value="{{ $search->seats }}">
+                        <input type="hidden" class="seat" name="seat" value="">
+                        <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
+                        <div class="col-sm-2 hidden-class">
+
+                            @for ($i =1 ; $i <=$search->seats; $i++)
+                                {{$i}}&nbsp;
+                                <input class='form-check-inline select-seat' name='check[]' type='checkbox'
+                                 value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
+                            @endfor
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
+                    </div>
+                    @endforeach
             </div> <!-- end col-->
          <!-- end row-->
     </div> <!-- container-fluid -->
@@ -71,8 +89,7 @@
 @endsection
 @push('js')
     <script>
-
-         $(document).on('change','.select-seat',function(e){
+        $(document).on('change','.select-seat',function(e){
             e.preventDefault();
             var totalCheckboxes = $('.select-seat:checked').length;
             var total = $('input[name="check[]"]:checked').length;
@@ -83,7 +100,6 @@
                 alert('you shoud not selected greter than  ' + sessionNo );
                 $(this).prop( "checked", false );
             }
-
         });
 
         $(document).on('click','.book',function(){
@@ -99,6 +115,5 @@
             // htm+="</div>"
             // $('#'+id).html(htm);
         });
-
     </script>
 @endpush

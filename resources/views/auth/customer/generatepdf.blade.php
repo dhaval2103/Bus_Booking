@@ -47,9 +47,6 @@
             </div>
         </section>
         <br>
-    {{-- <div class="container">
-        <a class="btn btn-primary" href="{{ url('generatepdf',request()->id) }}" style="margin-left: 300px">Generate Pdf</a>
-    </div> --}}
     <body style="margin: 0px; background-color: #ebeef3;">
 
         <table width="100%" cellpadding="0" cellspacing="0" align="center" style="font-family: 'Open Sans', sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;">
@@ -142,32 +139,29 @@
                                                     </th>
                                                     <th align="right" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px;">
                                                         <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
-                                                            Time</p>
-                                                    </th>
-                                                    <th align="right" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px;">
-                                                        <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
                                                             Seat</p>
                                                     </th>
                                                     <th align="right" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px;">
                                                         <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
-                                                            Price</p>
+                                                            Per Seat Price</p>
+                                                    </th>
+                                                    <th align="right" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px;">
+                                                        <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
+                                                           Total Price</p>
                                                     </th>
                                                 </tr>
-                                                {{-- @php
-                                                    $grandTotal=0;
-                                                @endphp --}}
                                                 @foreach ($view as $views)
-                                                {{-- @php
-                                                   $p=DB::table('buses')->where('id',$ticket->user_id)->first();
-                                                @endphp --}}
+                                                @php
+                                                    $p=DB::table('buses')->where('id',$views->bus_id)->first();
+                                                @endphp
                                                 <tr style="vertical-align: top;">
                                                     <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{ $views->source }}</p>
+                                                            {{ $p->source }}</p>
                                                     </td>
                                                     <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{ $views->destination }}</p>
+                                                            {{ $p->destination }}</p>
                                                     </td>
                                                     <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
@@ -175,19 +169,15 @@
                                                     </td>
                                                     <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{ $views->time }}</p>
+                                                            {{ $views->book_seat }}</p>
                                                     </td>
                                                     <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{ $views->book_seat }}</p>
+                                                            {{ $views->price }}</p>
                                                     </td>
                                                     <td align="right" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                         <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{-- @php
-                                                                $grandTotal+=$products->totalprice;
-                                                            @endphp --}}
                                                             {{ $views->total_price }}</p>
-
                                                 @endforeach
                                                     </td>
                                                 </tr>
@@ -199,18 +189,13 @@
                                                             {{-- <strong>Total  :-  {{$grandTotal}}</strong> --}}
                                                         </p>
                                                     </td>
-                                                    {{-- <td align="right" style=" padding: 13px; ">
-                                                        <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                            {{$grandTotal}}
-                                                        </p>
-                                                    </td> --}}
                                                 </tr>
                                                 <tr style="vertical-align: bottom;">
                                                     <td colspan="2"></td>
                                                 </tr>
-                                                @php
+                                                {{-- @php
                                                     $total=0;
-                                                @endphp
+                                                @endphp --}}
                                                 {{-- @foreach ($view as $grand) --}}
                                                 <tr style="vertical-align: bottom;">
                                                     <td colspan="2"></td>
@@ -220,11 +205,6 @@
                                                     </td>
                                                     <td align="right" style="padding: 13px; border-top: 1px solid #e7e8ec;  color: #f7941d; vertical-align: middle; font-weight: 700;">
                                                         <p style="font-size: 16px; margin: 0; color: #000; letter-spacing: 0.2px; text-transform: uppercase; ">
-                                                            {{-- @php
-                                                                $total+=$grand->totalprice;
-                                                            @endphp
-                                                            {{ $total }}</p>
-                                                            @endforeach --}}
                                                     </td>
                                                 </tr>
                                             </table>

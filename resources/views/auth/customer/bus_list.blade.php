@@ -25,12 +25,10 @@
         <!-- end page title -->
             <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
-
                 @foreach ($searching as $search)
                 <form action="{{ route('booking') }}" method="POST" id="">
                     @csrf
-                    <div class="col-sm-12 info" >
-
+                    <div class="col-sm-12">
                         <input type="hidden" name="id" value="{{$search->id}}">
                         Bus Name :
                             <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
@@ -45,11 +43,10 @@
                         <input type="hidden" class="seat" name="seat" value="">
                         <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
                         <div class="col-sm-2 hidden-class">
-
-                            @for ($i =1 ; $i <=$search->seats; $i++)
+                            @for ($i = 1 ; $i <= $search->seats; $i++)
                                 {{$i}}&nbsp;
-                                <input class='form-check-inline select-seat' name='check[]' type='checkbox'
-                                 value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
+                                <input class='form-check-inline select-seat' id="seating{{$i}}"  name='check[]' type='checkbox'
+                                 value='{{$i}}' @if(!empty($a) && in_array($i,$a['0'])) checked @endif>
                             @endfor
                         </div>
                         Price :
@@ -58,30 +55,39 @@
                     </div>
                 </form>
                 @endforeach
-                    @foreach ($rout[0] as $value)
+
+                {{-- Bus Route --}}
+            @foreach ($rout[0] as $value)
+                <form action="{{ route('busRoute') }}" method="POST">
+                    @csrf
                     <div class="col-sm-12">
+                        <input type="hidden" name="id" value="{{ $search->id }}">
                         <label for="Bus Name" class="col-form-label">Bus Name :</label>
-                        <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
+                            <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
                         <label for="Destination" class="col-form-label">Destination :</label>
-                        <span>{{$value}}</span><br>
+                            <span>{{ $value }}</span><br>
                         <label for="Bus No" class="col-form-label">Bus No :</label>
-                        <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
+                            <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
                         <label for="Total Seat" class="col-form-label">Total Seat :</label>
-                        <h5>{{ $search->seats }}</h5>
+                            <h5>{{ $search->seats }}</h5>
                         <input type="hidden" class="seatNo" value="{{ $search->seats }}">
                         <input type="hidden" class="seat" name="seat" value="">
-                        <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
+                        <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
                         <div class="col-sm-2 hidden-class">
 
-                            @for ($i =1 ; $i <=$search->seats; $i++)
-                                {{$i}}&nbsp;
-                                <input class='form-check-inline select-seat' name='check[]' type='checkbox'
-                                 value='{{$i}}' @if(in_array($i,$a['0'])) checked @endif>
+                            @for ($i = 1 ; $i <= $search->seats; $i++)
+                                {{ $i }}&nbsp;
+                                 <input class='form-check-inline select-routeSeat' id="busseat{{$i}}" name='check[]' type='checkbox'
+                                 value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked @endif>
                             @endfor
+
                         </div>
+                        <label for="Price" class="col-form-label">Price :</label>
+                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
                         <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
                     </div>
-                    @endforeach
+                </form>
+            @endforeach
             </div> <!-- end col-->
          <!-- end row-->
     </div> <!-- container-fluid -->
@@ -89,31 +95,63 @@
 @endsection
 @push('js')
     <script>
-        $(document).on('change','.select-seat',function(e){
+
+        // Checkbox Select
+
+        var total_prev = '';
+        var total_prev_route = '';
+
+        $(document).ready(function(){
+            total_prev = $('.select-seat:checkbox:checked').length;
+            total_prev_route = $('.select-routeSeat:checkbox:checked').length;
+        });
+
+        $(document).on('change','.select-seat',function(e) {
             e.preventDefault();
-            var totalCheckboxes = $('.select-seat:checked').length;
-            var total = $('input[name="check[]"]:checked').length;
+            var totalCheckboxes = $('.select-seat').length;
+            var total = $('.select-seat:checkbox:checked').length;
             var sessionNo = $('.sessionNo').val();
+            var total_seat = parseInt(total_prev) + parseInt(sessionNo);
+            console.log(total_seat);
             $('.seat').val(total);
-            if(totalCheckboxes > sessionNo)
+            for(var i=1; i<=total_seat; i++)
             {
-                alert('you shoud not selected greter than  ' + sessionNo );
-                $(this).prop( "checked", false );
+                if(i <= sessionNo)
+                {
+                    if(total <= total_seat) {
+                        $(this).prop('checked', true);
+                    } else {
+                        toastr.error('You Shoul Not Selected Greater Than Seats ' + sessionNo);
+                        $(this).prop('checked', false);
+                        break;
+                    }
+                }
             }
         });
 
-        $(document).on('click','.book',function(){
-            var a=$('.seatNo').val();
-            var id=$(this).data('id');
-            var htm="";
-            $('.hidden-class').css('display','block')
-            // htm+="<div class='form-group'>";
-            // for(var i=1;i<=a;i++)
-            // {
-            //     htm+="<input class='form-check-inline select-seat' name='check[]' type='checkbox' value='"+i+"'>";
-            // }
-            // htm+="</div>"
-            // $('#'+id).html(htm);
+        // Bus Route Checkbox Select
+
+        $(document).on('change','.select-routeSeat',function(e) {
+            e.preventDefault();
+            var totalRouteCheckboxes = $('.select-routeSeat').length;
+            var totalCheck = $('.select-routeSeat:checkbox:checked').length;
+            var sessionNo = $('.sessionNo').val();
+            var total_route_seat = parseInt(total_prev_route) + parseInt(sessionNo);
+            $('.seat').val(totalCheck);
+            for(var i=1; i<=total_route_seat; i++)
+            {
+                if(i <= sessionNo)
+                {
+                    if(totalCheck <= total_route_seat) {
+                        $(this).prop('checked', true);
+                    } else {
+                        toastr.error('You Shoul Not Selected Greater Than Seats ' + sessionNo);
+                        $(this).prop('checked', false);
+                        break;
+                    }
+                }
+            }
         });
+
     </script>
 @endpush

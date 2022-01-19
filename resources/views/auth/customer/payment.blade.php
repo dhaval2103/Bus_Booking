@@ -6,7 +6,7 @@
             <h3 class="mb-0">Payment Detail</h3>
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    
+
                 </ol>
             </div>
         </div>
@@ -31,6 +31,7 @@
                             data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
                             id="payment-form">
                             @csrf
+                            <input type="hidden" name="ticket_no" value="{{ $ticket_no }}">
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
                                     <label class='control-label'>Name on Card</label> <input class='form-control'
@@ -610,3 +611,5 @@ var Creditly = (function () {
 
     </script>
 @endpush
+
+

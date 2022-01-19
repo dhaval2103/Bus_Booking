@@ -14,11 +14,14 @@ use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\mail as MailMail;
 use Laravel\Ui\Presets\React;
 use Session;
 use Stripe;
 use Stripe\Customer;
 use PDF;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use PhpParser\Node\Expr\Cast\Bool_;
 
 class BusController extends Controller
@@ -83,7 +86,7 @@ class BusController extends Controller
         foreach($searching as $value)
         {
             $rout[]=explode(',',$value->route);
-            $ans[]=Booking::select('book_seat')->where('bus_id',$value->id)->first();
+            $ans[]=Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->first();
         }
         $a=[];
         foreach($ans as $values)
@@ -98,22 +101,43 @@ class BusController extends Controller
 
     public function booking(Request $request)
     {
+        $date = Session::get('date');
+        $ticket_no = generateTicketNumber(rand(100000, 999999));
+        $data = Bus::where('id',$request->id)->first();
+        // $checked = $request->input('checked');
+        $total = 0;
+        $totalSeat = count($request->check);
+        $total = $data->price * $totalSeat;
+        $add = new Booking;
+        $add->ticket_no = $ticket_no;
+        $add->user_id = Auth::user()->id;
+        $add->bus_id = $request->id;
+        $add->date = $date;
+        $add->book_seat = implode(',',$request->check);
+        $add->price = $data->price;
+        $add->total_price = $total;
+        $add->save();
+        return view('auth.customer.payment',compact('ticket_no'));
+    }
+
+    public function busRoute(Request $request)
+    {
         $date=Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
-        $data=Bus::where('id',$request->id)->first();
+        $data = Booking::where('bus_id',$request->id)->first();
         $total = 0;
-        $totalSeat=count($request->check);
+        $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;
-        $add=new Booking;
-        $add->ticket_no=$ticket_no;
-        $add->user_id=Auth::user()->id;
-        $add->bus_id=$request->id;
-        $add->date=$date;
-        $add->book_seat=implode(',',$request->check);
-        $add->price=$data->price;
-        $add->total_price=$total;
+        $add = new Booking;
+        $add->ticket_no = $ticket_no;
+        $add->user_id = Auth::user()->id;
+        $add->bus_id = $request->id;
+        $add->date = $date;
+        $add->book_seat = implode(',',$request->check);
+        $add->price = $data->price;
+        $add->total_price = $total;
         $add->save();
-        return view('auth.customer.payment');
+        return view('auth.customer.payment',compact('ticket_no'));
     }
 
     public function payment()
@@ -123,51 +147,65 @@ class BusController extends Controller
 
     public function stripe(Request $request)
     {
-        DB::beginTransaction();
-        try {
-            $a = explode('/',$request->exp_month);
-            $exp_month = trim($a[0]);
-            $exp_year = trim($a[1]);
-            $booking = Booking::where('user_id',Auth::user()->id)->orderBy('ticket_no')->first();
-            $total = 0;
-            $stripe = new \Stripe\StripeClient(
-                'sk_test_51KBGw9SFWtePUTo2aYHcyRbH79ZfN1LEa64xNuE2tW2smFglHV4Kil2gijPgYtMQobHHSQ221SYZMZnFWyxoTHcM00nBGSeZv6'
-            );
+        // DB::beginTransaction();
+        // try {
+        //     $a = explode('/',$request->exp_month);
+        //     $exp_month = trim($a[0]);
+        //     $exp_year = trim($a[1]);
+        //     $booking = Booking::where('user_id',Auth::user()->id)->orderBy('ticket_no')->first();
+        //     $total = 0;
+        //     $stripe = new \Stripe\StripeClient(
+        //         'sk_test_51KBGw9SFWtePUTo2aYHcyRbH79ZfN1LEa64xNuE2tW2smFglHV4Kil2gijPgYtMQobHHSQ221SYZMZnFWyxoTHcM00nBGSeZv6'
+        //     );
 
-            $sti = $stripe->tokens->create([
-                'card' => [
-                    'number' => $request->number,
-                    'cvc' => $request->cvc,
-                    'exp_month' => $exp_month,
-                    'exp_year' => $exp_year
-                ]
-            ]);
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $invoice = Stripe\Charge::create([
-                "amount" => $booking->total_price * 100,
-                "currency" => "inr",
-                "source" => $sti->id,
-                "description" => "This Payment Only Testing Purpose"
-            ]);
-            if ($invoice['amount_refunded'] == 0 && empty($invoice['failure_code']) && $invoice['paid'] == 1 && $invoice['captured'] == 1)
-            {
+        //     $sti = $stripe->tokens->create([
+        //         'card' => [
+        //             'number' => $request->number,
+        //             'cvc' => $request->cvc,
+        //             'exp_month' => $exp_month,
+        //             'exp_year' => $exp_year
+        //         ]
+        //     ]);
+        //     Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        //     $invoice = Stripe\Charge::create([
+        //         "amount" => $booking->total_price * 100,
+        //         "currency" => "inr",
+        //         "source" => $sti->id,
+        //         "description" => "This Payment Only Testing Purpose"
+        //     ]);
+        //     if ($invoice['amount_refunded'] == 0 && empty($invoice['failure_code']) && $invoice['paid'] == 1 && $invoice['captured'] == 1)
+        //     {
 
-            }
+        //     }
 
-            DB::commit();
-            return redirect()->route('ticket')->with('Success','Payment Received Successfully');
+        //     DB::commit();
+            // return redirect()->route('ticket')->with('Success','Payment Received Successfully');
+            // $b = Booking::where('id',$request->id)->first();
+            // $data = Bus::where('id',$request->id)->first();
+            // $view = Booking::where('ticket_no',$request['ticket_no'])->first();
+            // $ticket_no = $request['ticket_no'];
+            // Mail::to(Auth::user()->email)->send(new MailMail($view,$ticket_no));
+            // $count = Booking::where('user_id',Auth::user()->id)->count();
 
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            return $e->getMessage();
-        }
+            $exist = DB::table('bookings')
+                ->select('ticket_no',DB::raw('count(*) as total'))
+                ->groupBy('ticket_no')->get();
+
+            return view('auth.customer.ticket_list',compact('exist'));
+
+        // } catch (\Throwable $e) {
+        //     DB::rollBack();
+        //     return $e->getMessage();
+        // }
     }
 
     public function ticket(Request $request)
     {
         $b = Booking::where('id',$request->id)->first();
-        $view = Booking::where('user_id',Auth::user()->id)->get();
-        return view('auth.customer.ticket',compact('view'));
+        $data = Bus::where('id',$request->id)->first();
+        $view = Booking::where('ticket_no',$request['ticket_no'])->first();
+        $ticket_no = $request['ticket_no'];
+        return view('auth.customer.ticket',compact('view','data','ticket_no'));
     }
 
     public function generatepdf(Request $request, $id)
@@ -179,24 +217,6 @@ class BusController extends Controller
         $pdf = PDF::loadview('auth.customer.generatepdf',compact('view'));
         return $pdf->stream('ticket.pdf');
     }
-
-        // public function selectcheck(Request $request)
-     // {
-        // $seat=0;
-        // $totalprice=0;
-        // $seats=Bus::where('id',$request->id)->first();
-        // if($seat){
-        //     $seat=$request->id;
-        //     $totalprice=$seat*$seats->price;
-        //     $arr=[
-        //         'seats'=>$seat,
-        //         'price'=>$totalprice
-        //     ];
-        //     Bus::where('id',$request->id)->update($arr);
-        // }
-        // $price=Bus::where('id',$request->id)->first();
-        // return response()->json(['data'=>$price]);
-     // }
 
 
 }

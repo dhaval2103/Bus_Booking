@@ -104,7 +104,19 @@ class BusController extends Controller
         $date = Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
         $data = Bus::where('id',$request->id)->first();
+        // if (Booking::select('book_seat')->where('bus_id',$request->id)->exists())
+        // {
+        //     dd(Booking::select('book_seat')->where('bus_id',$request->id)->exists());
+        // }
         // $checked = $request->input('checked');
+        // $check = Booking::where('bus_id',$request->id)->get();
+        // $check = Booking::where('book_seat', '=', input::get('check'))->first();
+        $check = Booking::select('book_seat')->where('bus_id',$request->id)->get();
+        $seat=[];
+        foreach($check as $checked)
+        {
+            $seat[] = explode(',',$checked['book_seat']);
+        }
         $total = 0;
         $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;

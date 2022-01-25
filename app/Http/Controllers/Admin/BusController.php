@@ -116,6 +116,7 @@ class BusController extends Controller
         foreach($check as $checked)
         {
             $seat[] = explode(',',$checked['book_seat']);
+            // dd($seat);
         }
         $total = 0;
         $totalSeat = count($request->check);

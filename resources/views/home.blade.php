@@ -29,24 +29,23 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Source" class="col-form-label">Source :</label>
-                        <select class="form-control js-example-basic-multiple" name="source">
-                            <option value="">Select Source</option>
-                            <option value="Surat">Surat</option>
-                            <option value="Adajan">Adajan</option>
-                            <option value="Bhatar">Bhatar</option>
-                            <option value="Dabholi">Dabholi</option>
-                            <option value="Chowk">Chowk</option>
-                            <option value="Kamrej">Kamrej</option>
-                            <option value="Katargam">Katargam</option>
-                            <option value="Kosamba">Kosamba</option>
-                            <option value="Laskana">Laskana</option>
-                    </select>
+                            <select class="form-control js-example-basic-multiple" name="source">
+                                <option value="">Select Source</option>
+                                <option value="Surat">Surat</option>
+                                <option value="Adajan">Adajan</option>
+                                <option value="Bhatar">Bhatar</option>
+                                <option value="Dabholi">Dabholi</option>
+                                <option value="Chowk">Chowk</option>
+                                <option value="Kamrej">Kamrej</option>
+                                <option value="Katargam">Katargam</option>
+                                <option value="Kosamba">Kosamba</option>
+                                <option value="Laskana">Laskana</option>
+                            </select>
+                    </div>
                         @error('source')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
-                    {{-- </div> --}}
-                </div>
-            </div> <!-- end col-->
+            </div>
 
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
@@ -64,21 +63,21 @@
                             <option value="Patan">Patan</option>
                             <option value="Savarkundla">Savarkundla</option>
                             <option value="Bhuj">Bhuj</option>
-                    </select>
+                        </select>
+                    </div>
                         @error('destination')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
-                    </div>
                 </div>
 
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Date" class="col-form-label">Date :</label>
                             <input type="text" class="form-control onward" name="date" id="txtdate">
-                            @error('date')
-                                <span style="color: red">{{ $message }}</span>
-                            @enderror
                     </div>
+                    @error('date')
+                        <span style="color: red">{{ $message }}</span>
+                    @enderror
                 </div> <!-- end col-->
 
                 {{-- <div class="col-md-6 col-xl-2">
@@ -161,9 +160,6 @@
                     'date': {
                         required: true
                     },
-                    'time': {
-                        required: true
-                    },
                     'source': {
                         required:true
                     },
@@ -177,9 +173,6 @@
                     },
                     'date': {
                         required: "Please Select Date..!!!"
-                    },
-                    'time': {
-                        required: "Please Choose Time..!!!"
                     },
                     'source': {
                         required: "Please Select Source..!!!"

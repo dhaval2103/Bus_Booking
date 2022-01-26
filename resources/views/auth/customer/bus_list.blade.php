@@ -83,7 +83,7 @@
 
                         </div>
                         <label for="Price" class="col-form-label">Price :</label>
-                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
+                        <h5 style="text-transform: uppercase;">{{ $search->total_price }}</h5>
                         <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
                     </div>
                 </form>

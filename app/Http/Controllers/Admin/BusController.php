@@ -81,6 +81,11 @@ class BusController extends Controller
         $searching=Bus::where('source','LIKE','%'.$request->source.'%')
             ->Where('destination','LIKE','%'.$request->destination.'%')
             ->get();
+        // $data = Bus::where('id',$request->id)->first();
+        // $data = Booking::where('bus_id',$request->id)->first();
+        // $total = 0;
+        // $totalSeat = count($request->check);
+        // $total = $data->price * $totalSeat;
         $ans=[];
         $rout=[];
         foreach($searching as $value)
@@ -116,7 +121,6 @@ class BusController extends Controller
         foreach($check as $checked)
         {
             $seat[] = explode(',',$checked['book_seat']);
-            // dd($seat);
         }
         $total = 0;
         $totalSeat = count($request->check);
@@ -216,8 +220,8 @@ class BusController extends Controller
     {
         $b = Booking::where('id',$request->id)->first();
         $data = Bus::where('id',$request->id)->first();
-        $view = Booking::where('ticket_no',$request['ticket_no'])->first();
-        $ticket_no = $request['ticket_no'];
+        $view = Booking::where('ticket_no',$request->id)->first();
+        $ticket_no = $request->id;
         return view('auth.customer.ticket',compact('view','data','ticket_no'));
     }
 

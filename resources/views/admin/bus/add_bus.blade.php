@@ -151,6 +151,9 @@
                     'date': {
                         required: true
                     },
+                    'time': {
+                        required: true
+                    },
                     'source': {
                         required:true
                     },
@@ -176,6 +179,9 @@
                     },
                     'date': {
                         required: "Please Select Date..!!!"
+                    },
+                    'time': {
+                        required: "Please Select Time..!!!"
                     },
                     'source': {
                         required: "Please Choose Source..!!!"

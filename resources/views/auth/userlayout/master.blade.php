@@ -157,6 +157,12 @@
                                 <span>Home</span>
                             </a>
                         </li>
+                        {{-- <li>
+                            <a href="{{ route('stripe') }}" class="waves-effect">
+                                <i class="fa fa-home"></i>
+                                <span>Ticket List</span>
+                            </a>
+                        </li> --}}
                     </ul>
                 </div>
                 <!-- Sidebar -->

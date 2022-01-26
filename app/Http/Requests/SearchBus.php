@@ -27,7 +27,6 @@ class SearchBus extends FormRequest
             'source'=>'required',
             'destination'=>'required',
             'date' => 'required',
-            'time' => 'required',
             'seat' => 'required',
         ];
     }
@@ -38,8 +37,7 @@ class SearchBus extends FormRequest
             'source.required'=>'Please Choose Source..!!',
             'destination.required'=>'Please Choose Destination..!!',
             'date.required' => 'Please Select Date..!!',
-            'time.required' => 'Please Select Time..!!',
-            'seat.required' => 'Please Enter No.Of Seat..!!',
+            'seat.required' => 'Please Enter No. Of Seat..!!',
         ];
     }
 

@@ -50,7 +50,6 @@
                 <a class="btn btn-primary" href="{{ route('generatepdf',$ticket_no)}}" style="margin-left: 300px">Generate Pdf</a>
             </div>
             <body style="margin: 0px; background-color: #ebeef3;">
-
                 <table class="table table-bordered" width="100%" cellpadding="0" cellspacing="0" align="center" style="font-family: 'Open Sans', sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;">
                     <tr>
                         <td style="vertical-align: top;" align="center">

@@ -23,8 +23,11 @@
             </div>
         </div>
         <!-- end page title -->
+
+        {{-- Add Source Destination --}}
             <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
+                <div class="col-xl-12">
                 @foreach ($searching as $search)
                 <form action="{{ route('booking') }}" method="POST" id="">
                     @csrf
@@ -83,13 +86,14 @@
 
                         </div>
                         <label for="Price" class="col-form-label">Price :</label>
-                        <h5 style="text-transform: uppercase;">{{ $search->total_price }}</h5>
+                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
                         <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
                     </div>
                 </form>
             @endforeach
+                 </div>
             </div> <!-- end col-->
-         <!-- end row-->
+    <!-- end row-->
     </div> <!-- container-fluid -->
 </div>
 @endsection

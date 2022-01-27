@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="full">
-                                {{-- <h3>Invoice</h3> --}}
+                                <h3>Ticket</h3>
                             </div>
                         </div>
                     </div>
@@ -183,14 +183,8 @@
                                                             <td colspan="1"></td>
                                                             <td colspan="2" align="left" style=" padding: 13px;  ">
                                                                 <p style="font-size: 16px; margin: 0; color: #000; letter-spacing: 0.2px; text-transform: uppercase; ">
-                                                                    {{-- <strong>Total  :-  {{$grandTotal}}</strong> --}}
                                                                 </p>
                                                             </td>
-                                                            {{-- <td align="right" style=" padding: 13px; ">
-                                                                <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                                    {{$grandTotal}}
-                                                                </p>
-                                                            </td> --}}
                                                         </tr>
                                                         <tr style="vertical-align: bottom;">
                                                             <td colspan="2"></td>
@@ -198,20 +192,12 @@
                                                         @php
                                                             $total=0;
                                                         @endphp
-                                                        {{-- @foreach ($view as $grand) --}}
                                                         <tr style="vertical-align: bottom;">
                                                             <td colspan="2"></td>
                                                             <td colspan="2" align="left" style="padding: 13px; border-top: 1px solid #e7e8ec;  color: #f7941d; vertical-align: middle; font-weight: 700;">
-                                                                {{-- <p style="font-size: 16px; margin: 0; color: #000; letter-spacing: 0.2px; text-transform: uppercase; ">
-                                                                    Total</p> --}}
                                                             </td>
                                                             <td align="right" style="padding: 13px; border-top: 1px solid #e7e8ec;  color: #f7941d; vertical-align: middle; font-weight: 700;">
                                                                 <p style="font-size: 16px; margin: 0; color: #000; letter-spacing: 0.2px; text-transform: uppercase; ">
-                                                                    {{-- @php
-                                                                        $total+=$grand->totalprice;
-                                                                    @endphp
-                                                                    {{ $total }}</p>
-                                                                    @endforeach --}}
                                                             </td>
                                                         </tr>
                                                     </table>

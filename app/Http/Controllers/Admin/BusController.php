@@ -102,6 +102,7 @@ class BusController extends Controller
 
     public function booking(Request $request)
     {
+        // dd($request->check);
         $date = Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
         $data = Bus::where('id',$request->id)->first();
@@ -111,6 +112,7 @@ class BusController extends Controller
         {
             $seat[] = explode(',',$checked['book_seat']);
         }
+        dd($seat);
         $total = 0;
         $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;

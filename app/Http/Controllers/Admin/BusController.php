@@ -80,12 +80,8 @@ class BusController extends Controller
         Session::put('date',$request->date);
         $searching=Bus::where('source','LIKE','%'.$request->source.'%')
             ->Where('destination','LIKE','%'.$request->destination.'%')
+            ->where('route','LIKE','%'.$request->route.'%')
             ->get();
-        // $data = Bus::where('id',$request->id)->first();
-        // $data = Booking::where('bus_id',$request->id)->first();
-        // $total = 0;
-        // $totalSeat = count($request->check);
-        // $total = $data->price * $totalSeat;
         $ans=[];
         $rout=[];
         foreach($searching as $value)
@@ -109,13 +105,6 @@ class BusController extends Controller
         $date = Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
         $data = Bus::where('id',$request->id)->first();
-        // if (Booking::select('book_seat')->where('bus_id',$request->id)->exists())
-        // {
-        //     dd(Booking::select('book_seat')->where('bus_id',$request->id)->exists());
-        // }
-        // $checked = $request->input('checked');
-        // $check = Booking::where('bus_id',$request->id)->get();
-        // $check = Booking::where('book_seat', '=', input::get('check'))->first();
         $check = Booking::select('book_seat')->where('bus_id',$request->id)->get();
         $seat=[];
         foreach($check as $checked)

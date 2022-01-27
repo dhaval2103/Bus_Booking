@@ -15,8 +15,6 @@
                     <h3 class="mb-0">Bus List</h3>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            {{-- <li class="breadcrumb-item"><a href="javascript: void(0);">Timezone</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li> --}}
                         </ol>
                     </div>
                 </div>
@@ -73,6 +71,7 @@
                             <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
                         <label for="Total Seat" class="col-form-label">Total Seat :</label>
                             <h5>{{ $search->seats }}</h5>
+                        {{-- <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">>></button> --}}
                         <input type="hidden" class="seatNo" value="{{ $search->seats }}">
                         <input type="hidden" class="seat" name="seat" value="">
                         <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
@@ -116,7 +115,6 @@
             var total = $('.select-seat:checkbox:checked').length;
             var sessionNo = $('.sessionNo').val();
             var total_seat = parseInt(total_prev) + parseInt(sessionNo);
-            console.log(total_seat);
             $('.seat').val(total);
             for(var i=1; i<=total_seat; i++)
             {

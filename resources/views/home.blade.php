@@ -29,6 +29,7 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Source" class="col-form-label">Source :</label>
+                        {{-- <input type="text" class="form-control" name="source"> --}}
                             <select class="form-control js-example-basic-multiple" name="source">
                                 <option value="">Select Source</option>
                                 <option value="Surat">Surat</option>
@@ -50,6 +51,7 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Destination" class="col-form-label">Destination :</label>
+                        {{-- <input type="text" class="form-control" name="destination"> --}}
                         <select class="form-control js-example-basic-multiple" name="destination">
                             <option value="">Select Destination</option>
                             <option value="Rajkot">Rajkot</option>

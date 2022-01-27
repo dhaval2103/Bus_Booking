@@ -102,7 +102,7 @@ class BusController extends Controller
 
     public function booking(Request $request)
     {
-        // dd($request->check);
+        $newSeat = $request->check;
         $date = Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
         $data = Bus::where('id',$request->id)->first();
@@ -120,7 +120,7 @@ class BusController extends Controller
         $add->user_id = Auth::user()->id;
         $add->bus_id = $request->id;
         $add->date = $date;
-        $add->book_seat = implode(',',$request->check);
+        $add->book_seat = implode(',',$newSeat);
         $add->price = $data->price;
         $add->total_price = $total;
         $add->save();

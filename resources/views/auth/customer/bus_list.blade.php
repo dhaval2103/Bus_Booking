@@ -80,7 +80,7 @@
                             @for ($i = 1 ; $i <= $search->seats; $i++)
                                 {{ $i }}&nbsp;
                                  <input class='form-check-inline select-routeSeat' id="busseat{{$i}}" name='check[]' type='checkbox'
-                                 value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked @endif>
+                                 value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif>
                             @endfor
 
                         </div>
@@ -149,7 +149,11 @@
                 if(i <= sessionNo)
                 {
                     if(totalCheck <= total_route_seat) {
-                        $(this).prop('checked', true);
+                        // $(this).prop('checked', true);
+                        // if ($(this).is(':checked')) {
+
+                        //     $(this).prop('checked', false);
+                        // }
                     } else {
                         toastr.error('You Shoul Not Selected Greater Than Seats ' + sessionNo);
                         $(this).prop('checked', false);

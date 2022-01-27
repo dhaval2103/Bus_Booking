@@ -112,7 +112,6 @@ class BusController extends Controller
         {
             $seat[] = explode(',',$checked['book_seat']);
         }
-        dd($seat);
         $total = 0;
         $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;

@@ -22,7 +22,7 @@
         </div>
         <!-- end page title -->
         {{-- Add Source Destination --}}
-            <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
+        <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
                 <div class="col-xl-12">
                     @foreach ($searching as $search)
@@ -59,43 +59,44 @@
                     @endforeach
 
                 {{-- Bus Route --}}
-            @foreach ($rout[0] as $value)
-                <form action="{{ route('busRoute') }}" method="POST">
-                    @csrf
-                    <div class="col-sm-12">
-                        <input type="hidden" name="id" value="{{ $search->id }}">
-                        <label for="Bus Name" class="col-form-label">Bus Name :</label>
-                            <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
-                        <label for="Destination" class="col-form-label">Destination :</label>
-                            <span><b>Surat To {{ $value }}</b></span><br>
-                        <label for="Bus No" class="col-form-label">Bus No :</label>
-                            <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                        {{-- <label for="Total Seat" class="col-form-label">Total Seat :</label>
-                            <h5>{{ $search->seats }}</h5> --}}
-                        <button type="button" class="btn btn-primary rseatbook" data-id="{{$search->id}}">{{ $search->seats }} >></button>
-                        <input type="hidden" class="seatNo" value="{{ $search->seats }}">
-                        <input type="hidden" class="seat" name="seat" value="">
-                        <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
-                        <div class="col-sm-2 hidden-class routeseat">
+                    @foreach ($rout[0] as $value)
+                        <form action="{{ route('busRoute') }}" method="POST">
+                            @csrf
+                            <div class="col-sm-12">
+                                <input type="hidden" name="id" value="{{ $search->id }}">
+                                <label for="Bus Name" class="col-form-label">Bus Name :</label>
+                                    <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
+                                <label for="Destination" class="col-form-label">Destination :</label>
+                                    <span><b>Surat To {{ $value }}</b></span><br>
+                                <label for="Bus No" class="col-form-label">Bus No :</label>
+                                    <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
+                                {{-- <label for="Total Seat" class="col-form-label">Total Seat :</label>
+                                    <h5>{{ $search->seats }}</h5> --}}
+                                <button type="button" class="btn btn-primary rseatbook" data-id="{{$search->id}}">{{ $search->seats }} >></button>
+                                <input type="hidden" class="seatNo" value="{{ $search->seats }}">
+                                <input type="hidden" class="seat" name="seat" value="">
+                                <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
+                                <div class="col-sm-2 hidden-class routeseat">
 
-                            @for ($i = 1 ; $i <= $search->seats; $i++)
-                                {{ $i }}&nbsp;
-                                 <input class='form-check-inline select-routeSeat' id="busseat{{$i}}" name='check[]' type='checkbox'
-                                 value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif>
-                            @endfor
+                                    @for ($i = 1 ; $i <= $search->seats; $i++)
+                                        {{ $i }}&nbsp;
+                                        <input class='form-check-inline select-routeSeat' id="busseat{{$i}}" name='check[]' type='checkbox'
+                                        value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif>
+                                    @endfor
 
-                        </div>
-                        <label for="Price" class="col-form-label">Price :</label>
-                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                        <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
-                    </div>
-                </form>
-            @endforeach
+                                </div>
+                                <label for="Price" class="col-form-label">Price :</label>
+                                <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
+                                <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
+                            </div>
+                        </form>
+                    @endforeach
+                </div>
             </div> <!-- end col-->
-    <!-- end row-->
     </div> <!-- container-fluid -->
 </div>
 @endsection
+
 @push('js')
     <script>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BusController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,6 @@ Auth::routes();
     Route::get('ticketlist', [BusController::class, 'ticketlist'])->name('ticketlist');
     Route::get('ticket/{id}', [BusController::class, 'ticket'])->name('ticket');
     Route::get('generatepdf/{id}', [BusController::class, 'generatepdf'])->name('generatepdf');
+
+    Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+    Route::get('callback/google',[LoginController::class,'sociallogin']);

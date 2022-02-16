@@ -80,7 +80,7 @@ class BusController extends Controller
         session()->forget('date');
         Session::put('seat',$request->seat);
         Session::put('date',$request->date);
-        $searching=Bus::where('source','LIKE','%'.$request->source.'%')
+        $searching = Bus::where('source','LIKE','%'.$request->source.'%')
             ->Where('destination','LIKE','%'.$request->destination.'%')
             ->get();
         $ans=[];

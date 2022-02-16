@@ -70,7 +70,6 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
@@ -89,6 +88,16 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                            </div>
+                            <div class="row mb-3">
+                                <a href="{{ url('auth/google') }}" style="margin-top: 0px !important;background:green; wight;color: #ffffff;padding: 5px;border-radius:7px;" class="ml-2">
+                                    <i class="fab fa-google" style="background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 72% 54%/151% 151% no-repeat;
+                                    -webkit-background-clip: text;
+                                    background-clip: text;
+                                    color: transparent;
+                                    -webkit-text-fill-color: transparent;"></i>
+                                    Login
+                                  </a>
                             </div>
                         </div>
                     </form>

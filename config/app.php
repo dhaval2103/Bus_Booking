@@ -165,6 +165,7 @@ return [
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -236,6 +237,7 @@ return [
         'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
         'DataTable' =>\Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Socialite' => Laravel\Socialite\Fascades\Socialite::class,
     ],
 
 ];

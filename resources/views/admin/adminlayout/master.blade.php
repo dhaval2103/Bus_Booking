@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/themes/smoothness/jquery-ui.css" />
     @stack('css')
     <style>
     label.error {
@@ -170,6 +172,12 @@
                                 <span>Show Bus</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.importexcel') }}" class="waves-effect">
+                                <i class="fa fa-user"></i>
+                                <span>Import Excel</span>
+                            </a>
+                        </li>
 
 
                     </ul>
@@ -286,6 +294,14 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="/vendor/datatables/buttons.server-side.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"></script>
+    {{-- <script src=" https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
+    <script src=" https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css"></script> --}}
     {{-- <script src="{{ asset('assets/js/app.js') }}"></script> --}}
     @stack('js')
 </body>

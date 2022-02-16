@@ -23,5 +23,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('editbus/{id}',[BusController::class,'editbus'])->name('editbus');
     Route::post('updatebus',[BusController::class,'updatebus'])->name('updatebus');
     Route::get('deletebus/{id}',[BusController::class,'deletebus'])->name('deletebus');
+
+    Route::get('import-excel-csv', [BusController::class, 'importexcel'])->name('importexcel');
+    Route::post('import', [BusController::class, 'import'])->name('import');
 });
+
 ?>

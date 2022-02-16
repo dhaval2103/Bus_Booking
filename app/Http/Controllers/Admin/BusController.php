@@ -6,6 +6,7 @@ use App\DataTables\BusDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusValidation;
 use App\Http\Requests\SearchBus;
+use App\Imports\TestImport;
 use App\Interfaces\BusInterface;
 use App\Models\Booking;
 use App\Models\Bus;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\mail as MailMail;
 use Laravel\Ui\Presets\React;
+use Maatwebsite\Excel\Facades\Excel;
 use Session;
 use Stripe;
 use Stripe\Customer;
@@ -80,7 +82,6 @@ class BusController extends Controller
         Session::put('date',$request->date);
         $searching=Bus::where('source','LIKE','%'.$request->source.'%')
             ->Where('destination','LIKE','%'.$request->destination.'%')
-            ->where('route','LIKE','%'.$request->route.'%')
             ->get();
         $ans=[];
         $rout=[];
@@ -102,15 +103,22 @@ class BusController extends Controller
 
     public function booking(Request $request)
     {
-        $newSeat = $request->check;
         $date = Session::get('date');
         $ticket_no = generateTicketNumber(rand(100000, 999999));
         $data = Bus::where('id',$request->id)->first();
         $check = Booking::select('book_seat')->where('bus_id',$request->id)->get();
-        $seat=[];
+        $seat = [];
+
         foreach($check as $checked)
         {
             $seat[] = explode(',',$checked['book_seat']);
+        }
+
+        if(count($check)==0)
+        {
+            $selectedSeat = implode(',',$request->check);
+        } else {
+            $selectedSeat = $checked['book_seat'].','.implode(',',$request->check);
         }
         $total = 0;
         $totalSeat = count($request->check);
@@ -120,7 +128,7 @@ class BusController extends Controller
         $add->user_id = Auth::user()->id;
         $add->bus_id = $request->id;
         $add->date = $date;
-        $add->book_seat = implode(',',$newSeat);
+        $add->book_seat = $selectedSeat;
         $add->price = $data->price;
         $add->total_price = $total;
         $add->save();
@@ -225,5 +233,15 @@ class BusController extends Controller
         return $pdf->stream('ticket.pdf');
     }
 
+    public function importexcel()
+    {
+        return view('import_form');
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new TestImport,$request->file('file'));
+        return redirect()->route('admin.importexcel')->with('status','The File Has Been Import');
+    }
 
 }

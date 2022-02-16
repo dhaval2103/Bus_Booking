@@ -163,7 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
-
+        Yajra\DataTables\ButtonsServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -233,6 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTable'=>\Yajra\DataTables\Fascades\DataTables::class,
         'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
+        'DataTable' =>\Yajra\DataTables\Facades\DataTables::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

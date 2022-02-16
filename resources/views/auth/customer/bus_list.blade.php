@@ -21,41 +21,42 @@
             </div>
         </div>
         <!-- end page title -->
-
         {{-- Add Source Destination --}}
             <input type="hidden" class="sessionNo" value="{{Session::get('seat')}}">
             <div class="row">
                 <div class="col-xl-12">
-                @foreach ($searching as $search)
-                <form action="{{ route('booking') }}" method="POST" id="">
-                    @csrf
-                    <div class="col-sm-12">
-                        <input type="hidden" name="id" value="{{$search->id}}">
-                        Bus Name :
-                            <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
-                        Bus No :
-                            <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                        Total Seat :
-                            <h5>{{ $search->seats }}</h5>
-                        Route :
-                            <h5>{{ $search->route }}</h5>
-                        {{-- <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">>></button> --}}
-                        <input type="hidden" class="seatNo" value="{{ $search->seats }}">
-                        <input type="hidden" class="seat" name="seat" value="">
-                        <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
-                        <div class="col-sm-2 hidden-class">
-                            @for ($i = 1 ; $i <= $search->seats; $i++)
-                                {{$i}}&nbsp;
-                                <input class='form-check-inline select-seat' id="seating{{$i}}"  name='check[]' type='checkbox'
-                                 value='{{$i}}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif >
-                            @endfor
-                        </div>
-                        Price :
-                        <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                        <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
-                    </div>
-                </form>
-                @endforeach
+                    @foreach ($searching as $search)
+                        <form action="{{ route('booking') }}" method="POST" id="">
+                            @csrf
+                            <div class="col-sm-12">
+                                <input type="hidden" name="id" value="{{$search->id}}">
+                                Bus Name :
+                                    <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
+                                Bus No :
+                                    <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
+                                {{-- Total Seat :
+                                    <h5>{{ $search->seats }}</h5> --}}
+                                Destination :
+                                    <h5>Surat To {{ $search->destination }}</h5>
+                                {{-- Route :
+                                    <h5>{{ $search->route }}</h5> --}}
+                                <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">{{ $search->seats }} >></button>
+                                <input type="hidden" class="seatNo" value="{{ $search->seats }}">
+                                <input type="hidden" class="seat" name="seat" value="">
+                                <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
+                                <div class="col-sm-2 hidden-class checkseat">
+                                    @for ($i = 1 ; $i <= $search->seats; $i++)
+                                        {{$i}}&nbsp;
+                                        <input class='form-check-inline select-seat clickload' id="seating{{$i}}"  name='check[]' type='checkbox'
+                                         value='{{$i}}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif >
+                                    @endfor
+                                </div>
+                                Price :
+                                <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
+                                <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
+                            </div>
+                        </form>
+                    @endforeach
 
                 {{-- Bus Route --}}
             @foreach ($rout[0] as $value)
@@ -66,16 +67,16 @@
                         <label for="Bus Name" class="col-form-label">Bus Name :</label>
                             <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
                         <label for="Destination" class="col-form-label">Destination :</label>
-                            <span>{{ $value }}</span><br>
+                            <span><b>Surat To {{ $value }}</b></span><br>
                         <label for="Bus No" class="col-form-label">Bus No :</label>
                             <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                        <label for="Total Seat" class="col-form-label">Total Seat :</label>
-                            <h5>{{ $search->seats }}</h5>
-                        {{-- <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">>></button> --}}
+                        {{-- <label for="Total Seat" class="col-form-label">Total Seat :</label>
+                            <h5>{{ $search->seats }}</h5> --}}
+                        <button type="button" class="btn btn-primary rseatbook" data-id="{{$search->id}}">{{ $search->seats }} >></button>
                         <input type="hidden" class="seatNo" value="{{ $search->seats }}">
                         <input type="hidden" class="seat" name="seat" value="">
                         <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
-                        <div class="col-sm-2 hidden-class">
+                        <div class="col-sm-2 hidden-class routeseat">
 
                             @for ($i = 1 ; $i <= $search->seats; $i++)
                                 {{ $i }}&nbsp;
@@ -86,11 +87,10 @@
                         </div>
                         <label for="Price" class="col-form-label">Price :</label>
                         <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                        <button type="submit" class="btn btn-warning" style="margin-top: 10px">Submit</button>
+                        <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
                     </div>
                 </form>
             @endforeach
-                 </div>
             </div> <!-- end col-->
     <!-- end row-->
     </div> <!-- container-fluid -->
@@ -127,7 +127,7 @@
                         //     $(this).prop('checked', false);
                         // }
                     } else {
-                        toastr.error('You Shoul Not Selected Greater Than Seats ' + sessionNo);
+                        toastr.error('You Should Not Selected Greater Than Seats ' + sessionNo);
                         $(this).prop('checked', false);
                         break;
                     }
@@ -155,13 +155,33 @@
                         //     $(this).prop('checked', false);
                         // }
                     } else {
-                        toastr.error('You Shoul Not Selected Greater Than Seats ' + sessionNo);
+                        toastr.error('You Should Not Selected Greater Than Seats ' + sessionNo);
                         $(this).prop('checked', false);
                         break;
                     }
                 }
             }
         });
+
+        // Hide-Show Seat
+
+        $(document).ready(function(){
+            $(".checkseat").hide();
+            $(document).on("click",".book",function(){
+                $(".checkseat").toggle();
+            });
+        });
+
+        $(document).ready(function(){
+            $(".routeseat").hide();
+            $(document).on("click",".rseatbook",function(){
+                $(".routeseat").toggle();
+            });
+        });
+
+        // $(document).on("click",".clickload",function(){
+        //     alert();
+        // });
 
     </script>
 @endpush

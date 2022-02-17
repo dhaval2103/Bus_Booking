@@ -42,6 +42,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // Google Login
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -51,30 +53,84 @@ class LoginController extends Controller
     {
         try {
             $user = Socialite::driver('google')->stateless()->user();
-            // dd($user->email);
             $userData = User::where('email', $user->email)->first();
-            if (empty($userData->google_id)) {
-                $data = User::find($userData->id);
-                $data->google_id = uniqid();
-                $data->update();
+            if (empty($userData)) {
+                    $newUser = User::create([
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'google_id' => $user->id,
+                        'password' => encrypt('my-google')
+                    ]);
+                    Auth::login($newUser);
+                    return redirect('home');
+            } else {
+                Auth::login($userData);
+                return redirect('home');
             }
-            $findUser = User::where('email', $user->email)->first();
-            if ($findUser) {
-                Auth::login($findUser);
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
+    }
+
+    // Gihub Login
+
+    public function gitRedirect()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function gitCallback()
+    {
+        try {
+            $user = Socialite::driver('github')->user();
+            $searchUser = User::where('github_id', $user->id)->first();
+            if(!empty($searchUser)) {
+                Auth::login($searchUser);
+                return redirect('home');
+            } else {
+
+                $gitUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'github_id'=> $user->id,
+                    'password' => encrypt('gitpwd059')
+                ]);
+                Auth::login($gitUser);
+                return redirect('home');
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    // Facebook Login
+
+    public function redirectToFB()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+            $finduser = User::where('facebook_id', $user->id)->first();
+            if($finduser){
+                Auth::login($finduser);
                 return redirect('home');
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'google_id' => $user->id,
-                    'password' => encrypt('my-google')
+                    'facebook_id'=> $user->id,
+                    'password' => encrypt('my-facebook')
                 ]);
                 Auth::login($newUser);
                 return redirect('home');
             }
         } catch (Exception $e) {
-            dd('False');
-            $e->getMessage();
+            dd($e->getMessage());
         }
     }
+
 }

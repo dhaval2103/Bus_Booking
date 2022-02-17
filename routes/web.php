@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BusController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,9 @@ Auth::routes();
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback',[LoginController::class,'handleGoogleCallback']);
+
+    Route::get('auth/github', [LoginController::class, 'gitRedirect']);
+    Route::get('auth/github/callback', [LoginController::class, 'gitCallback']);
+
+    Route::get('auth/facebook', [LoginController::class, 'redirectToFB']);
+    Route::get('callback/facebook', [LoginController::class, 'handleCallback']);

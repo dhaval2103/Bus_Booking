@@ -39,4 +39,4 @@ Auth::routes();
     Route::get('generatepdf/{id}', [BusController::class, 'generatepdf'])->name('generatepdf');
 
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
-    Route::get('callback/google',[LoginController::class,'sociallogin']);
+    Route::get('auth/google/callback',[LoginController::class,'handleGoogleCallback']);

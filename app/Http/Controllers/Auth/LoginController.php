@@ -47,34 +47,34 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function sociallogin()
+    public function handleGoogleCallback()
     {
-        if ($type == 'google') {
-
-            $user = Socialite::driver('google')->user();
-            $data = User::where('email', $user->email)->first();
-            $findUser = User::where('google_id', $user->id)->first();
-            if ($data == null) {
-                if ($findUser) {
-                    Auth::login($findUser);
-                    return redirect()->route('home');
-                } else {
-                    $findUser = new User();
-                    $findUser->name = $user->name;
-                    $findUser->email = $user->email;
-                    // $findUser->status = '0';
-                    $findUser->google_id = $user->id;
-                    $findUser->password = uniqid();
-                    $findUser->save();
-                    Auth::login($findUser);
-                    return redirect()->route('home');
+        try {
+            $user = Socialite::driver('google')->stateless()->user();
+            // dd($user->email);
+            $userData = User::where('email', $user->email)->first();
+            if (empty($userData->google_id)) {
+                $data = User::find($userData->id);
+                $data->google_id = uniqid();
+                $data->update();
             }
-            } else if ($data->email == $user->email) {
-                $data->google_id = $user->id;
-                $data->save();
-                Auth::login($data);
-                return redirect()->route('home');
+            $findUser = User::where('email', $user->email)->first();
+            if ($findUser) {
+                Auth::login($findUser);
+                return redirect('home');
+            } else {
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id' => $user->id,
+                    'password' => encrypt('my-google')
+                ]);
+                Auth::login($newUser);
+                return redirect('home');
             }
+        } catch (Exception $e) {
+            dd('False');
+            $e->getMessage();
         }
     }
 }

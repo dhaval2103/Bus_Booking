@@ -117,8 +117,9 @@ class BusController extends Controller
         if(count($check)==0)
         {
             $selectedSeat = implode(',',$request->check);
+            // dd(1,$selectedSeat);
         } else {
-            $selectedSeat = $checked['book_seat'].','.implode(',',$request->check);
+            $selectedSeat = implode(',',$request->check);
         }
         $total = 0;
         $totalSeat = count($request->check);

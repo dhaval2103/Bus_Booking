@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="full">
-                                <h3>Ticket</h3>
+                                {{-- <h3>Ticket</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                                                     <tr>
                                                                         <td align="right" style="display: inline-block; width: 100%; padding-bottom: 15px;">
                                                                             <p style="font-size: 14px; color: #6f7177; line-height: 22px; margin: 0; letter-spacing: 0.6px;">
-                                                                                {{ $view->created_at }}</p>
+                                                                                {{ $view->date }}</p>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

@@ -53,16 +53,19 @@
                                 </div>
                                 Price :
                                 <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                                <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
+                                <button type="submit" class="btn btn-success sdsubmit" style="margin-top: 10px">Book</button>
                             </div>
                         </form>
                     @endforeach
 
                 {{-- Bus Route --}}
-                    @foreach ($rout[0] as $value)
+                <div class="row col-md-12">
+                    @foreach ($rout[0] as $key=>$value)
+                    <div class="col-md-6" style="border-bottom: 1px solid black;">
+
                         <form action="{{ route('busRoute') }}" method="POST">
                             @csrf
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 busroutershow">
                                 <input type="hidden" name="id" value="{{ $search->id }}">
                                 <label for="Bus Name" class="col-form-label">Bus Name :</label>
                                     <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
@@ -72,11 +75,12 @@
                                     <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
                                 {{-- <label for="Total Seat" class="col-form-label">Total Seat :</label>
                                     <h5>{{ $search->seats }}</h5> --}}
-                                <button type="button" class="btn btn-primary rseatbook" data-id="{{$search->id}}">{{ $search->seats }} >></button>
+                                <button type="button" class="btn btn-primary rseatbook" data-id="{{$key}}">{{ $search->seats }} >> </button>
+
                                 <input type="hidden" class="seatNo" value="{{ $search->seats }}">
                                 <input type="hidden" class="seat" name="seat" value="">
                                 <div class="col-4 abc" id="{{ $search->id }}" style="margin-top: 10px"></div>
-                                <div class="col-sm-2 hidden-class routeseat">
+                                <div class="col-sm-2 hidden-class routeseat" data-id="{{$key}}">
 
                                     @for ($i = 1 ; $i <= $search->seats; $i++)
                                         {{ $i }}&nbsp;
@@ -87,10 +91,12 @@
                                 </div>
                                 <label for="Price" class="col-form-label">Price :</label>
                                 <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                                <button type="submit" class="btn btn-success" style="margin-top: 10px">Book</button>
+                                <button type="submit" class="btn btn-success routsubmit" style="margin-top: 10px">Book</button>
                             </div>
                         </form>
+                    </div>
                     @endforeach
+                </div>
                 </div>
             </div> <!-- end col-->
     </div> <!-- container-fluid -->
@@ -170,13 +176,22 @@
             $(".checkseat").hide();
             $(document).on("click",".book",function(){
                 $(".checkseat").toggle();
+                $(".rseatbook").prop('disabled',true);
+                $(".routsubmit").prop('disabled',true);
             });
         });
 
         $(document).ready(function(){
             $(".routeseat").hide();
             $(document).on("click",".rseatbook",function(){
-                $(".routeseat").toggle();
+                var diId = $(this).attr("data-id");
+
+                $(".routeseat").hide();
+                $(this).parents(".busroutershow").find(".routeseat").show();
+
+                // $(".routeseat").toggle();
+                $(".book").prop('disabled',true);
+                $(".sdsubmit").prop('disabled',true);
             });
         });
 

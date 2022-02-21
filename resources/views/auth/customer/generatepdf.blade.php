@@ -114,6 +114,30 @@
                                                                         {{ $views->created_at }}</p>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td align="right" style="display: inline-block; width: 100%; padding-bottom: 6px;">
+                                                                    <h4 style="margin: 0px; font-size: 15px; font-weight: 600; text-transform: uppercase; ">
+                                                                        Bus Name</h4>
+                                                                </td>
+                                                            </tr>
+                                                            {{-- <tr>
+                                                                <td align="right" style="display: inline-block; width: 100%; padding-bottom: 15px;">
+                                                                    <p style="font-size: 14px; color: #6f7177; line-height: 22px; margin: 0; letter-spacing: 0.6px;">
+                                                                        {{ $busData->name }}</p>
+                                                                </td>
+                                                            </tr> --}}
+                                                            <tr>
+                                                                <td align="right" style="display: inline-block; width: 100%; padding-bottom: 6px;">
+                                                                    <h4 style="margin: 0px; font-size: 15px; font-weight: 600; text-transform: uppercase; ">
+                                                                        Bus No.</h4>
+                                                                </td>
+                                                            </tr>
+                                                            {{-- <tr>
+                                                                <td align="right" style="display: inline-block; width: 100%; padding-bottom: 15px;">
+                                                                    <p style="font-size: 14px; color: #6f7177; line-height: 22px; margin: 0; letter-spacing: 0.6px;">
+                                                                        {{ $busData->no }}</p>
+                                                                </td>
+                                                            </tr> --}}
                                                         </table>
 
                                                     </td>

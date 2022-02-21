@@ -89,21 +89,30 @@ class BusController extends Controller
         // dd(DB::getQueryLog());
         $ans=[];
         $rout=[];
-        foreach($searching as $value)
+
+        foreach($searching as $key => $value)
         {
             $rout[]=explode(',',$value->route);
-            $ans[]=Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->first();
+            $ans[$key]=Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->get();
         }
         $a=[];
-        foreach($ans as $values)
+        foreach($ans[0] as $keys => $values)
         {
             if($values!=null)
             {
-                $a[]=explode(',',$values['book_seat']);
+                $a[$keys]=explode(',',$values['book_seat']);
             }
         }
+        $disableSeat = array();
 
-        return view('auth.customer.bus_list',compact('searching','a','rout'));
+        foreach($a as $item){
+
+            foreach($item as $i){
+                array_push($disableSeat , $i);
+            }
+
+        }
+        return view('auth.customer.bus_list',compact('searching','a','disableSeat','rout'));
     }
 
     public function booking(Request $request)
@@ -123,8 +132,10 @@ class BusController extends Controller
         {
             $selectedSeat = implode(',',$request->check);
         } else {
+            // $selectedSeat = $checked['book_seat'].','.implode(',',$request->check);
             $selectedSeat = implode(',',$request->check);
         }
+        
         $total = 0;
         $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;
@@ -143,9 +154,9 @@ class BusController extends Controller
             $padd = new Passenger;
             $padd->user_id = Auth::user()->id;
             $padd->booking_id = $add->id;
-            $padd->name = $request->passenger['name'][$key] ;
+            $padd->name = $request->passenger['name'][$key];
             $padd->gender = $request->passenger['gender'][$key];
-            $padd->age= $request->passenger['age'][$key];
+            $padd->age = $request->passenger['age'][$key];
             $padd->email = $request->email;
             $padd->save();
         }
@@ -245,7 +256,7 @@ class BusController extends Controller
             $query->where('ticket_no',$ticket_no);
         })->get();
         // dd(DB::getQueryLog());
-
+        // dd($passenger);
         return view('auth.customer.ticket',compact('view','ticket_no','passenger','seat','busData'));
     }
 

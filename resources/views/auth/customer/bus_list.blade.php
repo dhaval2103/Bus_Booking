@@ -28,7 +28,7 @@
                     @foreach ($searching as $search)
                         <form action="{{ route('booking') }}" method="POST" id="">
                             @csrf
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 show">
                                 <input type="hidden" name="id" value="{{$search->id}}">
                                 Bus Name :
                                     <h5 style="text-transform: uppercase;">{{ $search->name }}</h5>
@@ -49,18 +49,18 @@
                                     @for ($i = 1 ; $i <= $search->seats; $i++)
                                         {{$i}}&nbsp;
                                        <input class='form-check-inline select-seat clickload' id="seating{{$i}}"  name='check[]' type='checkbox'
-                                         value='{{$i}}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif >
+                                         value='{{$i}}' @if(!empty($a) && in_array($i,$disableSeat)) checked disabled @endif>
                                     @endfor
                                     <br>
-                                    <b>Email : </b><input type="email" name="email" id="" class="form-control" required>
+                                    <b>Email : </b><input type="email" name="email" id="" class="form-control" placeholder="Enter Email" required>
                                     @for ($i = 0 ; $i < Session::get('seat'); $i++)
                                             <input type="hidden" name="pid" value="">
-                                            <b>Name : </b><input type="text" name="passenger[name][{{$i}}]" id="" required>
+                                            <b>Name : </b><input type="text" name="passenger[name][{{$i}}]" id="" placeholder="Enter Name" required>
                                             <b>Gender : </b><br>
                                             Male  <input type="radio" name="passenger[gender][{{$i}}]" value="male" required>
                                             Female <input type="radio" name="passenger[gender][{{$i}}]" value="female" required>
                                     <br>
-                                    <b>Age : </b><input type="number" name="passenger[age][{{$i}}]" id="" required>
+                                    <b>Age : </b><input type="number" name="passenger[age][{{$i}}]" id="" placeholder="Enter Age" required>
                                     @endfor
 
                                 </div>
@@ -202,6 +202,12 @@
                 //     })(jQuery);
                 // $(".rseatbook").toggle();
                 // $(".rseatbook").prop('disabled',true);
+                var diId = $(this).attr("data-id");
+                $(".checkseat").hide();
+                $(".book").prop('disabled',true);
+                $(this).parents(".show").find(".checkseat").show();
+                $(this).parents(".show").find(".checkseat").prop('disabled',false);
+                $(".book").prop('disabled',true);
                 $(".routsubmit").prop('disabled',true);
 
             });

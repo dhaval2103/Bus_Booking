@@ -113,6 +113,30 @@
                                                                                 {{ $view->date }}</p>
                                                                         </td>
                                                                     </tr>
+                                                                    <tr>
+                                                                        <td align="right" style="display: inline-block; width: 100%; padding-bottom: 6px;">
+                                                                            <h4 style="margin: 0px; font-size: 15px; font-weight: 600; text-transform: uppercase; ">
+                                                                                Bus Name</h4>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right" style="display: inline-block; width: 100%; padding-bottom: 15px;">
+                                                                            <p style="font-size: 14px; color: #6f7177; line-height: 22px; margin: 0; letter-spacing: 0.6px;">
+                                                                                {{ $busData->name }}</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right" style="display: inline-block; width: 100%; padding-bottom: 6px;">
+                                                                            <h4 style="margin: 0px; font-size: 15px; font-weight: 600; text-transform: uppercase; ">
+                                                                                Bus No.</h4>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right" style="display: inline-block; width: 100%; padding-bottom: 15px;">
+                                                                            <p style="font-size: 14px; color: #6f7177; line-height: 22px; margin: 0; letter-spacing: 0.6px;">
+                                                                                {{ $busData->no }}</p>
+                                                                        </td>
+                                                                    </tr>
                                                                 </table>
 
                                                             </td>
@@ -126,7 +150,15 @@
                                                         <tr style="vertical-align: middle;">
                                                             <th align="left" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px; width: 15%; ">
                                                                 <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
+                                                                    Name</p>
+                                                            </th>
+                                                            <th align="left" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px; width: 15%; ">
+                                                                <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
                                                                     Source</p>
+                                                            </th>
+                                                            <th align="left" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px; ">
+                                                                <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
+                                                                    Via</p>
                                                             </th>
                                                             <th align="left" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px; ">
                                                                 <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
@@ -144,18 +176,23 @@
                                                                 <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
                                                                     Per Seat Price</p>
                                                             </th>
-                                                            <th align="right" style="border-bottom: 3px solid #e8e8e8; padding:15px 13px; width: 15%;">
-                                                                <p style="font-size: 15px;margin: 0; color: #6f7177; letter-spacing: 0.2px; text-transform: uppercase;">
-                                                                    Total Price</p>
-                                                            </th>
                                                         </tr>
                                                         @php
                                                             $p=DB::table('buses')->where('id',$view->bus_id)->first();
                                                         @endphp
+                                                        @foreach ($passenger as $key=>$passengerData)
                                                         <tr style="vertical-align: top;">
                                                             <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                                 <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
+                                                                    {{ $passengerData->name }}</p>
+                                                            </td>
+                                                            <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
+                                                                <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
                                                                     {{ $p->source }}</p>
+                                                            </td>
+                                                            <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
+                                                                <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
+                                                                    {{ $p->route }}</p>
                                                             </td>
                                                             <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                                 <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
@@ -167,17 +204,15 @@
                                                             </td>
                                                             <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                                 <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                                    {{ $view->book_seat }}</p>
+                                                                    {{ $seat[$key] }}</p>
                                                             </td>
                                                             <td align="left" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
                                                                 <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
                                                                     {{ $view->price }}</p>
                                                             </td>
-                                                            <td align="right" style="border-bottom: 1px solid #e7e8ec; padding: 13px;">
-                                                                <p style="font-size: 15px; color: #000; margin: 0; letter-spacing: 0.6px;">
-                                                                    {{ $view->total_price }}</p>
-                                                            </td>
                                                         </tr>
+
+                                                        @endforeach
                                                         <tr style="vertical-align: bottom;">
                                                             <td colspan="2"></td>
                                                             <td colspan="1"></td>
@@ -211,7 +246,7 @@
                                                                 <table width="100%" cellpadding="0" cellspacing="0" align="left">
                                                                     <tr>
                                                                         <td align="left" style="padding: 10px 20px;">
-                                                                            <h4 style=" font-size: 20px; margin: 0; color: #000;  font-weight: 500;"></h4>
+                                                                            <h4 style=" font-size: 20px; margin: 0; color: #000;  font-weight: 500; margin-left:485px;"><b>Total Price : </b>{{ $view->total_price }}</h4>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -224,7 +259,7 @@
                                                                                         <table width="100%" height="100%" cellpadding="0" cellspacing="0">
                                                                                             <tr style="vertical-align: top;">
                                                                                                 <td align="left" style="width: 50%;  padding-right: 20px; border-right: 1px solid #eaf1f2;">
-
+                                                                                                   {{-- <b>Total Price : </b>{{ $view->total_price }} --}}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>

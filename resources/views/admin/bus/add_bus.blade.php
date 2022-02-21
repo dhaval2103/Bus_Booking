@@ -60,6 +60,22 @@
                                 <option value="Katargam">Katargam</option>
                                 <option value="Kosamba">Kosamba</option>
                                 <option value="Laskana">Laskana</option>
+                                <option value="Bharuch">Bharuch</option>
+                                <option value="Karjan">Karjan</option>
+                                <option value="Vadodara">Vadodara</option>
+                                <option value="Bhavnagar">Tarapur</option>
+                                <option value="Dhola">Dhola</option>
+                                <option value="Dholera">Dholera</option>
+                                <option value="Palitana">Palitana</option>
+                                <option value="Jesar">Jesar</option>
+                                <option value="Borsad">Borsad</option>
+                                <option value="Bhavnagar">Bhavnagar</option>
+                                <option value="Sihor">Sihor</option>
+                                <option value="Anand">Anand</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                                <option value="Bhachau">Bhachau</option>
+                                <option value="Kamrej">Kamrej</option>
+                                <option value="Chotila">Chotila</option>
                             </select>
                             @error('source')
                                 <span style="color: red">{{ $message }}</span>
@@ -80,6 +96,22 @@
                                 <option value="Patan">Patan</option>
                                 <option value="Savarkundla">Savarkundla</option>
                                 <option value="Bhuj">Bhuj</option>
+                                <option value="Bharuch">Bharuch</option>
+                                <option value="Karjan">Karjan</option>
+                                <option value="Vadodara">Vadodara</option>
+                                <option value="Bhavnagar">Tarapur</option>
+                                <option value="Dhola">Dhola</option>
+                                <option value="Dholera">Dholera</option>
+                                <option value="Palitana">Palitana</option>
+                                <option value="Jesar">Jesar</option>
+                                <option value="Borsad">Borsad</option>
+                                <option value="Bhavnagar">Bhavnagar</option>
+                                <option value="Sihor">Sihor</option>
+                                <option value="Anand">Anand</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                                <option value="Bhachau">Bhachau</option>
+                                <option value="Kamrej">Kamrej</option>
+                                <option value="Chotila">Chotila</option>
                             </select>
                             @error('destination')
                                 <span style="color: red">{{ $message }}</span>

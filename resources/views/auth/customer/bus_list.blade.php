@@ -38,29 +38,42 @@
                                     <h5>{{ $search->seats }}</h5> --}}
                                 Destination :
                                     <h5>Surat To {{ $search->destination }}</h5>
-                                {{-- Route :
-                                    <h5>{{ $search->route }}</h5> --}}
+                                Via :
+                                    <h5>{{ $search->route }}</h5>
                                 <button type="button" class="btn btn-primary book" data-id="{{$search->id}}">{{ $search->seats }} >></button>
                                 <input type="hidden" class="seatNo" value="{{ $search->seats }}">
                                 <input type="hidden" class="seat" name="seat" value="">
                                 <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
                                 <div class="col-sm-2 hidden-class checkseat">
+
                                     @for ($i = 1 ; $i <= $search->seats; $i++)
                                         {{$i}}&nbsp;
-                                        <input class='form-check-inline select-seat clickload' id="seating{{$i}}"  name='check[]' type='checkbox'
+                                       <input class='form-check-inline select-seat clickload' id="seating{{$i}}"  name='check[]' type='checkbox'
                                          value='{{$i}}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif >
                                     @endfor
+                                    <br>
+                                    <b>Email : </b><input type="email" name="email" id="" class="form-control" required>
+                                    @for ($i = 0 ; $i < Session::get('seat'); $i++)
+                                            <input type="hidden" name="pid" value="">
+                                            <b>Name : </b><input type="text" name="passenger[name][{{$i}}]" id="" required>
+                                            <b>Gender : </b><br>
+                                            Male  <input type="radio" name="passenger[gender][{{$i}}]" value="male" required>
+                                            Female <input type="radio" name="passenger[gender][{{$i}}]" value="female" required>
+                                    <br>
+                                    <b>Age : </b><input type="number" name="passenger[age][{{$i}}]" id="" required>
+                                    @endfor
+
                                 </div>
                                 Price :
                                 <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                                <button type="submit" class="btn btn-success sdsubmit" style="margin-top: 10px">Book</button>
+                                <button type="submit" class="btn btn-success sdsubmit" style="margin-top: 10px" disabled>Book</button>
                             </div>
                         </form>
                     @endforeach
 
                 {{-- Bus Route --}}
                 <div class="row col-md-12">
-                    @foreach ($rout[0] as $key=>$value)
+                    {{-- @foreach ($rout[0] as $key=>$value)
                     <div class="col-md-6" style="border-bottom: 1px solid black;">
 
                         <form action="{{ route('busRoute') }}" method="POST">
@@ -73,8 +86,6 @@
                                     <span><b>Surat To {{ $value }}</b></span><br>
                                 <label for="Bus No" class="col-form-label">Bus No :</label>
                                     <h5 style="text-transform: uppercase;">{{ $search->no }}</h5>
-                                {{-- <label for="Total Seat" class="col-form-label">Total Seat :</label>
-                                    <h5>{{ $search->seats }}</h5> --}}
                                 <button type="button" class="btn btn-primary rseatbook" data-id="{{$key}}">{{ $search->seats }} >> </button>
 
                                 <input type="hidden" class="seatNo" value="{{ $search->seats }}">
@@ -84,18 +95,18 @@
 
                                     @for ($i = 1 ; $i <= $search->seats; $i++)
                                         {{ $i }}&nbsp;
-                                        <input class='form-check-inline select-routeSeat' id="busseat{{$i}}" name='check[]' type='checkbox'
+                                        <input class='form-check-inline select-routeSeat routeclickload' id="busseat{{$i}}" name='check[]' type='checkbox'
                                         value='{{ $i }}' @if(!empty($a) && in_array($i,$a['0'])) checked disabled @endif>
                                     @endfor
 
                                 </div>
                                 <label for="Price" class="col-form-label">Price :</label>
                                 <h5 style="text-transform: uppercase;">{{ $search->price }}</h5>
-                                <button type="submit" class="btn btn-success routsubmit" style="margin-top: 10px">Book</button>
+                                <button type="submit" class="btn btn-success routsubmit" style="margin-top: 10px" disabled>Book</button>
                             </div>
                         </form>
                     </div>
-                    @endforeach
+                    @endforeach --}}
                 </div>
                 </div>
             </div> <!-- end col-->
@@ -142,6 +153,7 @@
             }
         });
 
+
         // Bus Route Checkbox Select
 
         $(document).on('change','.select-routeSeat',function(e) {
@@ -150,6 +162,7 @@
             var totalCheck = $('.select-routeSeat:checkbox:checked').length;
             var sessionNo = $('.sessionNo').val();
             var total_route_seat = parseInt(total_prev_route) + parseInt(sessionNo);
+            console.log(total_route_seat);
             $('.seat').val(totalCheck);
             for(var i=1; i<=total_route_seat; i++)
             {
@@ -170,14 +183,27 @@
             }
         });
 
+
         // Hide-Show Seat
 
         $(document).ready(function(){
             $(".checkseat").hide();
             $(document).on("click",".book",function(){
                 $(".checkseat").toggle();
-                $(".rseatbook").prop('disabled',true);
+                // $('.rseatbook').prop('disabled', function(i, v) { return !v; });
+                // (function($) {
+                //         $.fn.toggleDisabled = function() {
+                //             return this.each(function() {
+                //                 var $this = $(this);
+                //                 if ($this.attr('disabled')) $this.removeAttr('disabled');
+                //                 else $this.attr('disabled', 'disabled');
+                //             });
+                //         };
+                //     })(jQuery);
+                // $(".rseatbook").toggle();
+                // $(".rseatbook").prop('disabled',true);
                 $(".routsubmit").prop('disabled',true);
+
             });
         });
 
@@ -185,19 +211,26 @@
             $(".routeseat").hide();
             $(document).on("click",".rseatbook",function(){
                 var diId = $(this).attr("data-id");
-
                 $(".routeseat").hide();
+                $(".rseatbook").prop('disabled',true);
                 $(this).parents(".busroutershow").find(".routeseat").show();
-
-                // $(".routeseat").toggle();
+                $(this).parents(".busroutershow").find(".rseatbook").prop('disabled',false);
                 $(".book").prop('disabled',true);
                 $(".sdsubmit").prop('disabled',true);
             });
         });
 
-        // $(document).on("click",".clickload",function(){
-        //     alert();
-        // });
+
+        // Submit Button Disabled
+
+        $(document).on("click",".clickload",function(){
+            $(".sdsubmit").prop('disabled',false);
+        });
+
+        $(document).on("click",".routeclickload",function(){
+            // $(this).parents(".routsubmit").prop('disabled',false);
+            $(".routsubmit").prop('disabled',false);
+        });
 
     </script>
 @endpush

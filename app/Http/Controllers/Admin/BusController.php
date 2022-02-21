@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\mail as MailMail;
+use App\Models\Passenger;
 use Laravel\Ui\Presets\React;
 use Maatwebsite\Excel\Facades\Excel;
 use Session;
@@ -80,9 +81,12 @@ class BusController extends Controller
         session()->forget('date');
         Session::put('seat',$request->seat);
         Session::put('date',$request->date);
+        // DB::enableQueryLog();
         $searching = Bus::where('source','LIKE','%'.$request->source.'%')
-            ->Where('destination','LIKE','%'.$request->destination.'%')
+            ->where('destination','LIKE','%'.$request->destination.'%')
+            ->OrWhere('route','LIKE','%'.$request->destination.'%')
             ->get();
+        // dd(DB::getQueryLog());
         $ans=[];
         $rout=[];
         foreach($searching as $value)
@@ -98,6 +102,7 @@ class BusController extends Controller
                 $a[]=explode(',',$values['book_seat']);
             }
         }
+
         return view('auth.customer.bus_list',compact('searching','a','rout'));
     }
 
@@ -117,7 +122,6 @@ class BusController extends Controller
         if(count($check)==0)
         {
             $selectedSeat = implode(',',$request->check);
-            // dd(1,$selectedSeat);
         } else {
             $selectedSeat = implode(',',$request->check);
         }
@@ -133,28 +137,41 @@ class BusController extends Controller
         $add->price = $data->price;
         $add->total_price = $total;
         $add->save();
+
+        foreach($request->passenger['name'] as $key => $value)
+        {
+            $padd = new Passenger;
+            $padd->user_id = Auth::user()->id;
+            $padd->booking_id = $add->id;
+            $padd->name = $request->passenger['name'][$key] ;
+            $padd->gender = $request->passenger['gender'][$key];
+            $padd->age= $request->passenger['age'][$key];
+            $padd->email = $request->email;
+            $padd->save();
+        }
+
         return view('auth.customer.payment',compact('ticket_no'));
     }
 
-    public function busRoute(Request $request)
-    {
-        $date=Session::get('date');
-        $ticket_no = generateTicketNumber(rand(100000, 999999));
-        $data = Booking::where('bus_id',$request->id)->first();
-        $total = 0;
-        $totalSeat = count($request->check);
-        $total = $data->price * $totalSeat;
-        $add = new Booking;
-        $add->ticket_no = $ticket_no;
-        $add->user_id = Auth::user()->id;
-        $add->bus_id = $request->id;
-        $add->date = $date;
-        $add->book_seat = implode(',',$request->check);
-        $add->price = $data->price;
-        $add->total_price = $total;
-        $add->save();
-        return view('auth.customer.payment',compact('ticket_no'));
-    }
+    // public function busRoute(Request $request)
+    // {
+    //     $date=Session::get('date');
+    //     $ticket_no = generateTicketNumber(rand(100000, 999999));
+    //     $data = Booking::where('bus_id',$request->id)->first();
+    //     $total = 0;
+    //     $totalSeat = count($request->check);
+    //     $total = $data->price * $totalSeat;
+    //     $add = new Booking;
+    //     $add->ticket_no = $ticket_no;
+    //     $add->user_id = Auth::user()->id;
+    //     $add->bus_id = $request->id;
+    //     $add->date = $date;
+    //     $add->book_seat = implode(',',$request->check);
+    //     $add->price = $data->price;
+    //     $add->total_price = $total;
+    //     $add->save();
+    //     return view('auth.customer.payment',compact('ticket_no'));
+    // }
 
     public function payment()
     {
@@ -206,7 +223,7 @@ class BusController extends Controller
             $exist = DB::table('bookings')
                 ->select('ticket_no',DB::raw('count(*) as total'))
                 ->groupBy('ticket_no')->get();
-
+            // $busData = Bus::where('id',$request->id)->first();
             return view('auth.customer.ticket_list',compact('exist'));
 
         // } catch (\Throwable $e) {
@@ -217,11 +234,19 @@ class BusController extends Controller
 
     public function ticket(Request $request)
     {
-        $b = Booking::where('id',$request->id)->first();
-        $data = Bus::where('id',$request->id)->first();
+        // $bookingDetail = Booking::where('bus_id',$request->id)->first();
+        // $data = Bus::where('id',$request->id)->first();
         $view = Booking::where('ticket_no',$request->id)->first();
+        $busData = Bus::where('id',$view->bus_id)->first();
+        $seat = explode(',',$view->book_seat);
         $ticket_no = $request->id;
-        return view('auth.customer.ticket',compact('view','data','ticket_no'));
+        // DB::enableQueryLog();
+        $passenger = Passenger::whereHas('passengerDetail', function ($query) use ($ticket_no){
+            $query->where('ticket_no',$ticket_no);
+        })->get();
+        // dd(DB::getQueryLog());
+
+        return view('auth.customer.ticket',compact('view','ticket_no','passenger','seat','busData'));
     }
 
     public function generatepdf(Request $request, $id)

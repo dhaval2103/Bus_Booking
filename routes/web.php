@@ -39,6 +39,7 @@ Auth::routes();
     Route::get('ticket/{id}', [BusController::class, 'ticket'])->name('ticket');
     Route::get('generatepdf/{id}', [BusController::class, 'generatepdf'])->name('generatepdf');
 
+
     Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback',[LoginController::class,'handleGoogleCallback']);
 

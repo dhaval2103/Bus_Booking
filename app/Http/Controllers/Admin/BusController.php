@@ -81,38 +81,39 @@ class BusController extends Controller
         session()->forget('date');
         Session::put('seat',$request->seat);
         Session::put('date',$request->date);
-        // DB::enableQueryLog();
+        // \DB::enableQueryLog();
         $searching = Bus::where('source','LIKE','%'.$request->source.'%')
             ->where('destination','LIKE','%'.$request->destination.'%')
             ->OrWhere('route','LIKE','%'.$request->destination.'%')
             ->get();
-        // dd(DB::getQueryLog());
+        // dd(\DB::getQueryLog());
         $ans=[];
         $rout=[];
 
         foreach($searching as $key => $value)
         {
             $rout[]=explode(',',$value->route);
-            $ans[$key]=Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->get();
-        }
-        $a=[];
-        foreach($ans[0] as $keys => $values)
-        {
-            if($values!=null)
+            print_r($value->id);
+            $ans = Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->get();
+            $checkSeat=[];
+            foreach($ans as $keys => $values)
             {
-                $a[$keys]=explode(',',$values['book_seat']);
+                if(isset($values->book_seat)){
+                    $checkSeat[$keys]=explode(',', $values->book_seat );
+                }
+            }
+            $disableSeat = array();
+            foreach($checkSeat as $item){
+                foreach($item as $i){
+                    array_push($disableSeat , $i);
+                }
+            }
+            if(isset($searching[$key])){
+
+                $searching[$key]->disable_seat = $disableSeat;
             }
         }
-        $disableSeat = array();
-
-        foreach($a as $item){
-
-            foreach($item as $i){
-                array_push($disableSeat , $i);
-            }
-
-        }
-        return view('auth.customer.bus_list',compact('searching','a','disableSeat','rout'));
+        return view('auth.customer.bus_list',compact('searching','checkSeat','disableSeat','rout'));
     }
 
     public function booking(Request $request)
@@ -135,7 +136,7 @@ class BusController extends Controller
             // $selectedSeat = $checked['book_seat'].','.implode(',',$request->check);
             $selectedSeat = implode(',',$request->check);
         }
-        
+
         $total = 0;
         $totalSeat = count($request->check);
         $total = $data->price * $totalSeat;
@@ -245,18 +246,13 @@ class BusController extends Controller
 
     public function ticket(Request $request)
     {
-        // $bookingDetail = Booking::where('bus_id',$request->id)->first();
-        // $data = Bus::where('id',$request->id)->first();
         $view = Booking::where('ticket_no',$request->id)->first();
         $busData = Bus::where('id',$view->bus_id)->first();
         $seat = explode(',',$view->book_seat);
         $ticket_no = $request->id;
-        // DB::enableQueryLog();
         $passenger = Passenger::whereHas('passengerDetail', function ($query) use ($ticket_no){
             $query->where('ticket_no',$ticket_no);
         })->get();
-        // dd(DB::getQueryLog());
-        // dd($passenger);
         return view('auth.customer.ticket',compact('view','ticket_no','passenger','seat','busData'));
     }
 

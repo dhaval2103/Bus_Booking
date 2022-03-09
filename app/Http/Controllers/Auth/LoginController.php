@@ -99,7 +99,7 @@ class LoginController extends Controller
                 return redirect('home');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            $e->getMessage();
         }
     }
 
@@ -129,7 +129,7 @@ class LoginController extends Controller
                 return redirect('home');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            $e->getMessage();
         }
     }
 

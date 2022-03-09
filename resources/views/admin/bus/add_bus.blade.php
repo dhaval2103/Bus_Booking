@@ -52,6 +52,7 @@
                             <select class="form-control js-example-basic-multiple" name="source">
                                 <option value="---Select Source---">---Select Source---</option>
                                 <option value="Surat">Surat</option>
+                                <option value="Valsad">Valsad</option>
                                 <option value="Adajan">Adajan</option>
                                 <option value="Bhatar">Bhatar</option>
                                 <option value="Dabholi">Dabholi</option>
@@ -112,6 +113,7 @@
                                 <option value="Bhachau">Bhachau</option>
                                 <option value="Kamrej">Kamrej</option>
                                 <option value="Chotila">Chotila</option>
+                                <option value="Surat">Surat</option>
                             </select>
                             @error('destination')
                                 <span style="color: red">{{ $message }}</span>

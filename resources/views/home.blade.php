@@ -1,9 +1,5 @@
-{{-- @extends('layouts.app') --}}
 @extends('auth.userlayout.master')
 @section('content')
-@prepend('css')
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
-@endprepend
 
 <div class="page-content">
     <div class="container-fluid">
@@ -15,8 +11,6 @@
                     <h3 class="mb-0">Search Bus</h3>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            {{-- <li class="breadcrumb-item"><a href="javascript: void(0);">Timezone</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li> --}}
                         </ol>
                     </div>
                 </div>
@@ -29,10 +23,10 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Source" class="col-form-label">Source :</label>
-                        {{-- <input type="text" class="form-control" name="source"> --}}
                             <select class="form-control js-example-basic-multiple" name="source">
                                 <option value="">Select Source</option>
                                 <option value="Surat">Surat</option>
+                                <option value="Valsad">Valsad</option>
                                 <option value="Adajan">Adajan</option>
                                 <option value="Bhatar">Bhatar</option>
                                 <option value="Dabholi">Dabholi</option>
@@ -67,7 +61,6 @@
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Destination" class="col-form-label">Destination :</label>
-                        {{-- <input type="text" class="form-control" name="destination"> --}}
                         <select class="form-control js-example-basic-multiple" name="destination">
                             <option value="">Select Destination</option>
                             <option value="Rajkot">Rajkot</option>
@@ -96,6 +89,7 @@
                             <option value="Bhachau">Bhachau</option>
                             <option value="Kamrej">Kamrej</option>
                             <option value="Chotila">Chotila</option>
+                            <option value="Surat">Surat</option>
                         </select>
                     </div>
                         @error('destination')
@@ -113,20 +107,9 @@
                     @enderror
                 </div> <!-- end col-->
 
-                {{-- <div class="col-md-6 col-xl-2">
-                    <div class="card">
-                        <label for="Time" class="col-form-label">Time :</label>
-                            <input type="time" class="form-control" name="time">
-                            @error('time')
-                                <span style="color: red">{{ $message }}</span>
-                            @enderror
-                    </div>
-                </div> <!-- end col--> --}}
-
                 <div class="col-md-6 col-xl-2">
                     <div class="card">
                         <label for="Seat" class="col-form-label">Seat :</label>
-                            {{-- <input type="text" class="form-control" name="seat"> --}}
                             <select name="seat" id="" class="form-control">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -148,11 +131,6 @@
                 </div> <!-- end col-->
 
                 <div class="col-md-6 col-xl-2">
-                    {{-- @foreach ($searching as $search)
-                        <div class="card">
-                            <h1>{{ $search->name }}</h1>
-                        </div>
-                    @endforeach --}}
                 </div> <!-- end col-->
 
             </div>

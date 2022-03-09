@@ -45,12 +45,12 @@
                                 <input type="hidden" class="seat" name="seat" value="">
                                 <div class="col-4 abc" id="{{$search->id}}" style="margin-top: 10px"></div>
                                 <div class="col-sm-2 hidden-class checkseat">
-
                                     @for ($i = 1 ; $i <= $search->seats; $i++)
                                         {{$i}}&nbsp;
                                        <input class='form-check-inline select-seat clickload' id="seating{{$i}}"  name='check[]' type='checkbox'
-                                         value='{{$i}}' @if(!empty($a) && in_array($i,$disableSeat)) checked disabled @endif>
+                                         value='{{$i}}' @if(!empty($search->disable_seat) && in_array($i,$search->disable_seat)) checked disabled @endif>
                                     @endfor
+
                                     <br>
                                     <b>Email : </b><input type="email" name="email" id="" class="form-control" placeholder="Enter Email" required>
                                     @for ($i = 0 ; $i < Session::get('seat'); $i++)

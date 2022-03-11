@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     });
 
     Route::get('addbus', [BusController::class, 'addbus'])->name('addbus');
-    Route::post('insertbus',[BusController::class,'insertbus'])->name('insertbus');
+    Route::post('insertbus',[BusController::class,'insertbus'])->name('busadd');
     Route::get('showbus',[BusController::class,'showbus'])->name('showbus');
     Route::get('editbus/{id}',[BusController::class,'editbus'])->name('editbus');
     Route::post('updatebus',[BusController::class,'updatebus'])->name('updatebus');

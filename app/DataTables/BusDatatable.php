@@ -80,7 +80,6 @@ class BusDatatable extends DataTable
             Column::make('source'),
             Column::make('destination'),
             Column::make('route'),
-            Column::make('onward'),
             Column::make('time'),
             Column::make('seats'),
             Column::make('price'),

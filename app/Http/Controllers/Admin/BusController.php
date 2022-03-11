@@ -43,7 +43,7 @@ class BusController extends Controller
 
     public function insertbus(BusValidation $request)
     {
-        $this->bus->creates($request->all());
+        $detail = $this->bus->creates($request->all());
         return redirect()->route('admin.showbus');
     }
 
@@ -93,7 +93,6 @@ class BusController extends Controller
         foreach($searching as $key => $value)
         {
             $rout[]=explode(',',$value->route);
-            print_r($value->id);
             $ans = Booking::select('book_seat')->where('bus_id',$value->id)->orderBy('id','desc')->get();
             $checkSeat=[];
             foreach($ans as $keys => $values)
@@ -112,6 +111,14 @@ class BusController extends Controller
 
                 $searching[$key]->disable_seat = $disableSeat;
             }
+        }
+        if(empty($checkSeat))
+        {
+            $checkSeat = [];
+        }
+        if(empty($disableSeat))
+        {
+            $disableSeat = [];
         }
         return view('auth.customer.bus_list',compact('searching','checkSeat','disableSeat','rout'));
     }

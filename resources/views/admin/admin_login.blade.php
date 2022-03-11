@@ -50,20 +50,18 @@
                                 <form method="POST" class="form-signin" action="{{ route('admin.login') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Enter username">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
                                         @error('email')
-                                            <span style="color: red">{{ $message }}</span>
+                                        <span style="color: red">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label for="userpassword">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                            placeholder="Enter password">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                                         @error('password')
-                                            <span style="color: red">{{ $message }}</span>
+                                        <span style="color: red">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="mt-3 text-right">

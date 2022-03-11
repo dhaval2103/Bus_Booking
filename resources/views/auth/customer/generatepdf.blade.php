@@ -40,7 +40,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="full">
-                            {{-- <h3>Invoice</h3> --}}
                         </div>
                     </div>
                 </div>

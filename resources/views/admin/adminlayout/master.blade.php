@@ -161,10 +161,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.addbus') }}" class="waves-effect">
+                            {{-- <a href="{{ route('admin.addbus') }}" class="waves-effect">
                                 <i class="fa fa-user"></i>
                                 <span>Add Bus</span>
-                            </a>
+                            </a> --}}
                         </li>
                         <li>
                             <a href="{{ route('admin.showbus') }}" class="waves-effect">
@@ -300,9 +300,6 @@
     <script src="/vendor/datatables/buttons.server-side.js"></script>
     <script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.print.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"></script>
-    {{-- <script src=" https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
-    <script src=" https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css"></script> --}}
-    {{-- <script src="{{ asset('assets/js/app.js') }}"></script> --}}
     @stack('js')
 </body>
 

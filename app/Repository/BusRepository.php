@@ -13,13 +13,13 @@ class BusRepository implements BusInterface
         $bus->name=$request['busname'];
         $bus->no=$request['busno'];
         $bus->seats=$request['seat'];
-        $bus->onward=$request['date'];
         $bus->time=$request['time'];
         $bus->source=$request['source'];
         $bus->destination=$request['destination'];
         $bus->route=implode(',',$request['route']);
         $bus->price=$request['price'];
         $bus->save();
+        return $bus;
     }
 
     public function edit($id)

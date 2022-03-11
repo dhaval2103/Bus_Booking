@@ -31,7 +31,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="full">
-                                {{-- <h3>Ticket</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -259,7 +258,6 @@
                                                                                         <table width="100%" height="100%" cellpadding="0" cellspacing="0">
                                                                                             <tr style="vertical-align: top;">
                                                                                                 <td align="left" style="width: 50%;  padding-right: 20px; border-right: 1px solid #eaf1f2;">
-                                                                                                   {{-- <b>Total Price : </b>{{ $view->total_price }} --}}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>

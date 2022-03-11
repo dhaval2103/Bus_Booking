@@ -4,6 +4,11 @@
     <section class="content">
         <br>
         <h1>Show Bus Detail</h1>
+        <br>
+        <a href="{{ route('admin.addbus') }}" class="btn btn-primary">
+            <i class="fa fa-user"></i>
+            <span>Add Bus</span>
+        </a>
         <div class="row">
             <div class="col-12">
                 <div class="card-body">
@@ -17,27 +22,27 @@
 </section>
 @endsection
 @push('js')
-    {{ $dataTable->scripts() }}
-    <script>
-        $(document).ready(function(){
-            $('.dragAndDrop').sortable({
-                items : 'tr:not(tr:first-child)',
-                cursor : 'pointer',
-                axis : 'y',
-                dropOnEmpty : false,
-            start : function (e,ui) {
+{{ $dataTable->scripts() }}
+<script>
+    $(document).ready(function() {
+        $('.dragAndDrop').sortable({
+            items: 'tr:not(tr:first-child)'
+            , cursor: 'pointer'
+            , axis: 'y'
+            , dropOnEmpty: false
+            , start: function(e, ui) {
                 ui.item.addClass("selected");
-            },
-            stop : function (e,ui) {
+            }
+            , stop: function(e, ui) {
                 ui.item.removeClass("selected");
-                $(this).find("tr").each(function (index) {
-                    if(index > 0) {
+                $(this).find("tr").each(function(index) {
+                    if (index > 0) {
                         $(this).find("td").eq(2).html(index);
                     }
                 });
-              }
-            });
+            }
         });
+    });
 
-    </script>
+</script>
 @endpush

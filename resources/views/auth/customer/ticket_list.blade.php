@@ -27,7 +27,6 @@
             @foreach ($exist as $exists)
                  <div class="card" style="width:630px;margin-left: 40px;background-color:silver">
                         <a href="{{ route('ticket',$exists->ticket_no) }}" class=""><i class="feather icon-chevron-right"></i>
-                            {{-- ['ticket_no' => $exists->ticket_no] --}}
                             <div class="card-body display" id="show">
                                 <h4>Ticket-<b>No</b></h4>
                                 <h5>#{{ $exists->ticket_no }}</h5>

@@ -14,7 +14,6 @@ class Bus extends Model
         'source',
         'destination',
         'route',
-        'onward',
         'time',
         'seats',
         'price',

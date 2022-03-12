@@ -128,10 +128,10 @@
     $(document).on('change', '.select-seat', function(e) {
         var price = $('.seatprice').val();
         e.preventDefault();
-        var totalCheckboxes = $('.select-seat').length -1;
+        var totalCheckboxes = $('.select-seat').length - 1;
         var total = $('.select-seat:checkbox:checked').length;
         var $input = $('input[type=checkbox]');
-        var lengthcheckn = $input.not(':disabled').filter(':checked').length -1;
+        var lengthcheckn = $input.not(':disabled').filter(':checked').length - 1;
         var sessionNo = $('.sessionNo').val();
         var total_seat = parseInt(total_prev) + parseInt(sessionNo);
         $('.seat').val(total);
@@ -148,8 +148,10 @@
             }
 
         }
-        price = (lengthcheckn * price);
-        $('.showprice').text(price);
+        if (total <= total_seat) {
+            price = (lengthcheckn * price);
+            $('.showprice').text(price);
+        }
     });
 
 
